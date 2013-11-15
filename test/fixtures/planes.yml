@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  manufacturer: MyString
+  prop_type: MyString
+  bus_cap: 
+  eco_cap: 
+  tail_num: 
+
+two:
+  manufacturer: MyString
+  prop_type: MyString
+  bus_cap: 
+  eco_cap: 
+  tail_num: 

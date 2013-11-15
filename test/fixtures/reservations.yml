@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  client_id: 
+  payment_source: 
+  status: 
+  preference_id: 
+  frequentflier_id: 
+
+two:
+  client_id: 
+  payment_source: 
+  status: 
+  preference_id: 
+  frequentflier_id: 

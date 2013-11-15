@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  owner_id: 
+  number: 
+  cvv2: 
+  expiration: 2013-11-15
+
+two:
+  owner_id: 
+  number: 
+  cvv2: 
+  expiration: 2013-11-15

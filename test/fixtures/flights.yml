@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  airline_id: 
+  number: 
+  date: 2013-11-15
+  departure: 
+  arrival: 
+  origin_airport: 
+  destination_airport: 
+  plane_id: 
+  bus_fare: 
+  eco_fare: 
+  bus_avail: 
+  eco_avail: 
+
+two:
+  airline_id: 
+  number: 
+  date: 2013-11-15
+  departure: 
+  arrival: 
+  origin_airport: 
+  destination_airport: 
+  plane_id: 
+  bus_fare: 
+  eco_fare: 
+  bus_avail: 
+  eco_avail: 
