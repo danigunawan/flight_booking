@@ -20,6 +20,8 @@ describe Client do
 		@frequentflier.save
 		@frequent_flier_membership = @client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
 		@frequent_flier_membership.save
+		@cc = @client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
+		@cc.save
 	end
 
 	subject{@client}
@@ -31,10 +33,15 @@ describe Client do
 	it {should respond_to(:phone)}
 	it {should respond_to(:frequent_flier_memberships)}
 	it {should respond_to(:frequent_flier_clients)}
+	it {should respond_to(:credit_cards)}
 
 	describe "Associations: " do
 		it "should have a frequent flier membership with Virgin America" do
 			@client.frequent_flier_memberships[0].airline.name.should match "Virgin America"
+		end
+
+		it "should have a credit card with cvv2 123" do
+			@client.credit_cards[0].cvv2.should be 123
 		end
 	end
 

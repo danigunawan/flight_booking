@@ -12,5 +12,12 @@
 #
 
 class CreditCard < ActiveRecord::Base
-  attr_accessible :cvv2, :expiration, :number, :owner_id
+  attr_accessible :cvv2, :expiration, :number
+
+  belongs_to :client
+
+  validates :cvv2, presence: true
+  validates :expiration, presence: true
+  validates :number, presence: true
+  validates :client_id, presence: true
 end
