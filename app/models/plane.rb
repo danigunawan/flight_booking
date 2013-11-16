@@ -1,5 +1,5 @@
 class Plane < ActiveRecord::Base
-  attr_accessible :bus_cap, :eco_cap, :manufacturer, :prop_type, :tail_num, :flight_id, :type
+  attr_accessible :bus_cap, :eco_cap, :manufacturer, :prop_type, :tail_num, :type
 
   belongs_to :flight
 
