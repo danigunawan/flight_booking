@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131115203216) do
+ActiveRecord::Schema.define(:version => 20131116002848) do
 
   create_table "agents", :force => true do |t|
     t.integer  "reservation_id"
@@ -30,16 +30,16 @@ ActiveRecord::Schema.define(:version => 20131115203216) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "airp_airls", :force => true do |t|
+  create_table "airport_airlines", :force => true do |t|
     t.integer  "airport_id"
     t.integer  "airline_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "airp_airls", ["airline_id"], :name => "index_airp_airls_on_airline_id"
-  add_index "airp_airls", ["airport_id", "airline_id"], :name => "index_airp_airls_on_airport_id_and_airline_id", :unique => true
-  add_index "airp_airls", ["airport_id"], :name => "index_airp_airls_on_airport_id"
+  add_index "airport_airlines", ["airline_id"], :name => "index_airp_airls_on_airline_id"
+  add_index "airport_airlines", ["airport_id", "airline_id"], :name => "index_airp_airls_on_airport_id_and_airline_id", :unique => true
+  add_index "airport_airlines", ["airport_id"], :name => "index_airp_airls_on_airport_id"
 
   create_table "airports", :force => true do |t|
     t.string   "i_code"
