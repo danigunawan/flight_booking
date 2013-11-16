@@ -2,19 +2,21 @@
 #
 # Table name: credit_cards
 #
-#  id         :integer          not null, primary key
-#  client_id  :integer
-#  number     :integer
-#  cvv2       :integer
-#  expiration :date
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id             :integer          not null, primary key
+#  client_id      :integer
+#  number         :integer
+#  cvv2           :integer
+#  expiration     :date
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  reservation_id :integer
 #
 
 class CreditCard < ActiveRecord::Base
   attr_accessible :cvv2, :expiration, :number
 
   belongs_to :client
+  belongs_to :reservation
 
   validates :cvv2, presence: true
   validates :expiration, presence: true
