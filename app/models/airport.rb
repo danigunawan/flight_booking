@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: airports
+#
+#  id         :integer          not null, primary key
+#  i_code     :string(255)
+#  name       :string(255)
+#  country    :string(255)
+#  city       :string(255)
+#  phone      :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Airport < ActiveRecord::Base
   attr_accessible :city, :country, :i_code, :name, :phone
 

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: frequent_fliers
+#
+#  id         :integer          not null, primary key
+#  airline_id :integer
+#  discount   :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'spec_helper'
 
 describe FrequentFlier do

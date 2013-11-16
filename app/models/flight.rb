@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: flights
+#
+#  id                  :integer          not null, primary key
+#  airline_id          :integer
+#  number              :integer
+#  date                :date
+#  departure           :datetime
+#  arrival             :datetime
+#  origin_airport      :integer
+#  destination_airport :integer
+#  bus_fare            :integer
+#  eco_fare            :integer
+#  bus_avail           :integer
+#  eco_avail           :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+
 class Flight < ActiveRecord::Base
   attr_accessible :airline_id, :arrival, :bus_avail, :bus_fare, :date, :departure, :destination_airport, :eco_avail, :eco_fare, :number, :origin_airport
 
