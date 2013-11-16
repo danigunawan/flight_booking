@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131116014458) do
+ActiveRecord::Schema.define(:version => 20131116044350) do
 
   create_table "agents", :force => true do |t|
     t.integer  "reservation_id"
@@ -96,15 +96,15 @@ ActiveRecord::Schema.define(:version => 20131116014458) do
   end
 
   create_table "frequent_flier_clients", :force => true do |t|
-    t.integer  "frequentflier_id"
+    t.integer  "frequent_flier_id"
     t.integer  "client_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   add_index "frequent_flier_clients", ["client_id"], :name => "index_frequent_flier_clients_on_client_id"
-  add_index "frequent_flier_clients", ["frequentflier_id", "client_id"], :name => "index_frequent_flier_clients_on_frequentflier_id_and_client_id", :unique => true
-  add_index "frequent_flier_clients", ["frequentflier_id"], :name => "index_frequent_flier_clients_on_frequentflier_id"
+  add_index "frequent_flier_clients", ["frequent_flier_id", "client_id"], :name => "index_frequent_flier_clients_on_frequent_flier_id_and_client_id", :unique => true
+  add_index "frequent_flier_clients", ["frequent_flier_id"], :name => "index_frequent_flier_clients_on_frequent_flier_id"
 
   create_table "frequent_fliers", :force => true do |t|
     t.integer  "airline_id"
