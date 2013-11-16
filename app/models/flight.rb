@@ -2,6 +2,7 @@ class Flight < ActiveRecord::Base
   attr_accessible :airline_id, :arrival, :bus_avail, :bus_fare, :date, :departure, :destination_airport, :eco_avail, :eco_fare, :number, :origin_airport
 
   has_one :plane
+  belongs_to :airline
 
   validates :airline_id, presence: true
   validates :arrival, presence: true
