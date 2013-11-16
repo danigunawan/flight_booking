@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe Airport do
 	before do
-		@airport = Airport.new(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
+		@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
+		@airline = Airline.create(name: "Virgin America", phone: 6505552513)
+		@airportairline = @airport.airport_airlines.build(airline_id: @airline.id)
+		@airportairline.save
 	end
 
 	subject{@airport}
@@ -12,10 +15,17 @@ describe Airport do
 	it {should respond_to(:i_code)}
 	it {should respond_to(:name)}
 	it {should respond_to(:phone)}
+	it {should respond_to(:airlines)}
 
 	it {should be_valid}
 
-	describe "Validations:" do
+	describe "Relationships: " do
+		it "should have Virgin America as an airline" do
+			@airport.airlines[0].name.should eql("Virgin America")
+		end
+	end
+
+	describe "Validations: " do
 		describe "should validate presence of city" do
 			before {@airport.city = nil}
 			it {should_not be_valid}
