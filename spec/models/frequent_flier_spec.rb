@@ -2,20 +2,29 @@ require 'spec_helper'
 
 describe FrequentFlier do
 	before do
+		@client = Client.create(address: "435 Test Street", name: "Tester", phone: 6505552832)
 		@airline = Airline.create(name: "Virgin America", phone: 6505552513)
 		@frequentflier = @airline.build_frequent_flier(discount: 5)
+		@frequentflier.save
+		@frequent_flier_membership = @client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
+		@frequent_flier_membership.save
 	end
 
 	subject{@frequentflier}
 
 	it {should respond_to(:airline)}
 	it {should respond_to(:discount)}
+	it {should respond_to(:clients)}
 
 	it {should be_valid}
 
 	describe "Associations: " do
 		it "should have an airline with the name Virgin America" do
 			@frequentflier.airline.name.should match "Virgin America"
+		end
+
+		it "should have a client with the name Tester" do
+			@frequentflier.clients[0].name.should match "Tester"
 		end
 	end
 
