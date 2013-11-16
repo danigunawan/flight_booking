@@ -2,13 +2,14 @@
 #
 # Table name: credit_cards
 #
-#  id         :integer          not null, primary key
-#  client_id  :integer
-#  number     :integer
-#  cvv2       :integer
-#  expiration :date
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id             :integer          not null, primary key
+#  client_id      :integer
+#  number         :integer
+#  cvv2           :integer
+#  expiration     :date
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  reservation_id :integer
 #
 
 require 'test_helper'

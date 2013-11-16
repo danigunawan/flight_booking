@@ -2,14 +2,14 @@
 #
 # Table name: reservations
 #
-#  id               :integer          not null, primary key
-#  client_id        :integer
-#  payment_source   :integer
-#  status           :integer
-#  preference_id    :integer
-#  frequentflier_id :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                :integer          not null, primary key
+#  client_id         :integer
+#  payment_source    :integer
+#  status            :integer
+#  preference_id     :integer
+#  frequent_flier_id :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html

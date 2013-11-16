@@ -34,6 +34,7 @@ describe Client do
 	it {should respond_to(:frequent_flier_memberships)}
 	it {should respond_to(:frequent_flier_clients)}
 	it {should respond_to(:credit_cards)}
+	it {should respond_to(:reservations)}
 
 	describe "Associations: " do
 		it "should have a frequent flier membership with Virgin America" do
@@ -42,6 +43,10 @@ describe Client do
 
 		it "should have a credit card with cvv2 123" do
 			@client.credit_cards[0].cvv2.should be 123
+		end
+
+		it "should have a reservation with flight 202" do
+			@client.reservations[0].flights[0].number.should be 202
 		end
 	end
 

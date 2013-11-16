@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: credit_cards
+#
+#  id             :integer          not null, primary key
+#  client_id      :integer
+#  number         :integer
+#  cvv2           :integer
+#  expiration     :date
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  reservation_id :integer
+#
+
 require 'spec_helper'
 
 describe CreditCard do
@@ -13,11 +27,13 @@ describe CreditCard do
 	it {should respond_to(:cvv2)}
 	it {should respond_to(:expiration)}
 	it {should respond_to(:number)}
+	it {should respond_to(:reservations)}
 
 	describe "Associations: " do
 		it "should belong to a client named Tester John" do
 			@cc.client.name.should match "Tester John"
 		end
+		
 	end
 
 	describe "Validations: " do

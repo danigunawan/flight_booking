@@ -16,7 +16,7 @@ class CreditCard < ActiveRecord::Base
   attr_accessible :cvv2, :expiration, :number
 
   belongs_to :client
-  belongs_to :reservation
+  has_many :reservations
 
   validates :cvv2, presence: true
   validates :expiration, presence: true
