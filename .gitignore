@@ -16,3 +16,6 @@
 
 # Ignore assignment file
 CSC315_Project.pdf
+
+# Ignore whiteboard pictures
+/whiteboard/*

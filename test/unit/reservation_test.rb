@@ -4,12 +4,13 @@
 #
 #  id                :integer          not null, primary key
 #  client_id         :integer
-#  payment_source    :integer
+#  credit_card_id    :integer
 #  status            :integer
 #  preference_id     :integer
 #  frequent_flier_id :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  agent_id          :integer
 #
 
 require 'test_helper'
