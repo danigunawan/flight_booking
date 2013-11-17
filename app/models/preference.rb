@@ -12,5 +12,7 @@
 #
 
 class Preference < ActiveRecord::Base
-  attr_accessible :client_id, :location, :notes, :seat
+  attr_accessible :location, :notes, :seat
+
+  belongs_to :client
 end
