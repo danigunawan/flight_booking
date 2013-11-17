@@ -17,6 +17,7 @@ class Client < ActiveRecord::Base
   has_many :frequent_flier_memberships, through: :frequent_flier_clients, source: :frequent_flier
   has_many :credit_cards
   has_many :reservations
+  has_one :preference
 
   validates :address, presence: true
   validates :name, presence: true
