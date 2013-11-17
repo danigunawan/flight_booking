@@ -17,9 +17,6 @@ require 'spec_helper'
 describe Airport do
 	before do
 		@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-		@airline = Airline.create(name: "Virgin America", phone: 6505552513)
-		@airportairline = @airport.airport_airlines.build(airline_id: @airline.id)
-		@airportairline.save
 	end
 
 	subject{@airport}
@@ -34,6 +31,11 @@ describe Airport do
 	it {should be_valid}
 
 	describe "Relationships: " do
+		before do
+			@airline = Airline.create(name: "Virgin America", phone: 6505552513)
+			@airportairline = @airport.airport_airlines.build(airline_id: @airline.id)
+			@airportairline.save
+		end
 		it "should have Virgin America as an airline" do
 			@airport.airlines[0].name.should eql("Virgin America")
 		end

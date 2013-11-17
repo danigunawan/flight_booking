@@ -24,6 +24,9 @@ class Flight < ActiveRecord::Base
   has_one :plane
   belongs_to :airline
 
+  has_many :flight_reservations, foreign_key: "flight_id"
+  has_many :reservations, through: :flight_reservations
+
   validates :airline_id, presence: true
   validates :arrival, presence: true
   validates :bus_fare, presence: true

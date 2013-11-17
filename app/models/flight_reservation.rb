@@ -11,4 +11,10 @@
 
 class FlightReservation < ActiveRecord::Base
   attr_accessible :flight_id, :reservation_id
+
+  belongs_to :flight, class_name: "Flight"
+  belongs_to :reservation, class_name: "Reservation"
+
+  validates :flight_id, presence: true
+  validates :reservation_id, presence: true
 end
