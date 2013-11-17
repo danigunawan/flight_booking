@@ -17,8 +17,6 @@ describe FrequentFlier do
 		@airline = Airline.create(name: "Virgin America", phone: 6505552513)
 		@frequentflier = @airline.build_frequent_flier(discount: 5)
 		@frequentflier.save
-		@frequent_flier_membership = @client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
-		@frequent_flier_membership.save
 	end
 
 	subject{@frequentflier}
@@ -30,6 +28,11 @@ describe FrequentFlier do
 	it {should be_valid}
 
 	describe "Associations: " do
+		before do
+			@frequent_flier_membership = @client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
+			@frequent_flier_membership.save
+		end
+		
 		it "should have an airline with the name Virgin America" do
 			@frequentflier.airline.name.should match "Virgin America"
 		end
