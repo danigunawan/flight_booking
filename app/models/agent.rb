@@ -13,5 +13,11 @@
 #
 
 class Agent < ActiveRecord::Base
-  attr_accessible :end_date, :name, :reservation_id, :start_date, :status
+  attr_accessible :end_date, :name, :start_date, :status
+
+  has_many :reservations
+
+  validates :name, presence: true
+  validates :start_date, presence: true
+  validates :status, presence: true
 end
