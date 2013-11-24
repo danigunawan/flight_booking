@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131116182935) do
+ActiveRecord::Schema.define(:version => 20131124042827) do
 
   create_table "agents", :force => true do |t|
     t.integer  "reservation_id"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20131116182935) do
     t.integer  "reservation_id"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "status"
   end
 
   add_index "flight_reservations", ["flight_id", "reservation_id"], :name => "index_flight_reservations_on_flight_id_and_reservation_id", :unique => true

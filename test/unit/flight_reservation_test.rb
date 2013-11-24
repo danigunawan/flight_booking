@@ -7,6 +7,7 @@
 #  reservation_id :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  status         :string(255)
 #
 
 require 'test_helper'

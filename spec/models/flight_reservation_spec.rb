@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: flight_reservations
+#
+#  id             :integer          not null, primary key
+#  flight_id      :integer
+#  reservation_id :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  status         :string(255)
+#
+
 require 'spec_helper'
 
 describe FlightReservation do
@@ -24,16 +36,33 @@ describe FlightReservation do
 
 	it {should respond_to(:flight)}
 	it {should respond_to(:reservation)}
+	it {should respond_to(:status)}
 
 	describe "Validations: " do
-		describe "should validate that flight_id is present" do
-			before {@flight_reservation.flight_id = nil}
-			it {should_not be_valid}
+		it "should validate that flight_id is present" do
+			@flight_reservation.flight_id = nil
+			@flight_reservation.should_not be_valid
 		end
 
-		describe "should validate that reservation_id is present" do
-			before {@flight_reservation.reservation_id = nil}
-			it {should_not be_valid}
+		it "should validate that reservation_id is present" do
+			@flight_reservation.reservation_id = nil
+			@flight_reservation.should_not be_valid
+		end
+	end
+
+	describe "Defaults: " do
+		it "should have status == 'Waitlisted' if status is not set at build" do
+			@flight_reservation.status.should match "Waitlisted"
+		end
+
+		it "should not have status == 'Waitlisted' when status is updated" do
+			@flight_reservation.status = "Reserved"
+			@flight_reservation.status.should match "Reserved"
+		end
+
+		it "should not have status == 'Waitlisted' when status is set at build" do
+			@flight_reservation = @reservation.flight_reservations.build(flight_id: @flight_id, status: "Reserved")
+			@flight_reservation.status.should match "Reserved"
 		end
 	end
 end
