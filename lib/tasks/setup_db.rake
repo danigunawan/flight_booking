@@ -1,5 +1,23 @@
+namespace :db do
+	desc "Runs all populate tasks"
+	task :populate => :environment do
+		puts "Running all populate tasks"
+		Rake::Task['db:populate_flights'].invoke
+		Rake::Task['db:populate_planes'].invoke
+		Rake::Task['db:populate_ff'].invoke
+		Rake::Task['db:populate_agents'].invoke
+		Rake::Task['db:populate_clients'].invoke
+		Rake::Task['db:populate_credit_cards'].invoke
+		Rake::Task['db:populate_preferences'].invoke
+		Rake::Task['db:populate_frequent_flier_clients'].invoke
+		Rake::Task['db:populate_reservations'].invoke
+		Rake::Task['db:populate_flight_reservations'].invoke
+		puts "Populate finished."
+	end
+end
+
 namespace :db  do
-  desc "Populates the DB with flights, frequent flier programs, agents, clients and "
+  desc "Populates the DB with flights."
   task :populate_flights => :environment do
     puts "Populating flights"
     airline = Airline.all
@@ -138,12 +156,27 @@ end
 
 namespace :db  do
   desc "Populates the DB with flights, frequent flier programs, agents, clients and "
-  task :clear => :environment do
+  task :clear_all => :environment do
+  	Agent.destroy_all
+  	puts "Destroyed all Agents"
+  	Client.destroy_all
+  	puts "Destroyed all Clients"
+  	CreditCard.destroy_all
+  	puts "Destroyed all Credit Cards"
+  	FlightReservation.destroy_all
+  	puts "Destroyed all Flight Reservations"
   	Flight.destroy_all
     puts "Destroyed all Flights"
+    FrequentFlierClient.destroy_all
+    puts "Destroyed all Frequent Flier Clients"
     FrequentFlier.destroy_all
     puts "Destroyed all Frequent Flier Programs"
-    Agent.destroy_all
-    puts "Destroyed all Agents"
+    Plane.destroy_all
+    puts "Destroyed all Planes"
+    Preference.destroy_all
+    puts "Destroyed all Preferences"
+    Reservation.destroy_all
+    puts "Destroyed all Reservations"
+    puts "Clear All complete."
   end
 end
