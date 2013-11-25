@@ -22,7 +22,7 @@ describe Plane do
 		@airline = Airline.create(name: "Virgin America", phone: 6505552513)
 		@flight = @airline.flights.build(airline_id: @airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: @airport.id)
 		@flight.save
-		@plane = @flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", type: "737-800", prop_type: "Jet", tail_num: 4285)
+		@plane = @flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 	end
 
 	subject{@plane}
@@ -32,7 +32,7 @@ describe Plane do
 	it {should respond_to(:manufacturer)}
 	it {should respond_to(:prop_type)}
 	it {should respond_to(:tail_num)}
-	it {should respond_to(:type)}
+	it {should respond_to(:make)}
 	it {should respond_to(:flight)}
 
 	it {should be_valid}
@@ -59,8 +59,8 @@ describe Plane do
 			it {should_not be_valid}
 		end
 
-		describe "should validate that type is present" do
-			before {@plane.type = nil}
+		describe "should validate that make is present" do
+			before {@plane.make = nil}
 			it {should_not be_valid}
 		end
 

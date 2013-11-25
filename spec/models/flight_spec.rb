@@ -49,7 +49,7 @@ describe Flight do
 
 	describe "Associations: " do
 		before do
-			@plane = @flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", type: "737-800", prop_type: "Jet", tail_num: 4285)
+			@plane = @flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 			@client = Client.create(address: "435 Test Street", name: "Tester", phone: 6505552832)
 			@frequentflier = @airline.build_frequent_flier(discount: 5)
 			@frequentflier.save

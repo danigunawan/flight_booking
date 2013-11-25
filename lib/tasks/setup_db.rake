@@ -13,6 +13,20 @@ namespace :db  do
   end
 end
 
+namespace :db do
+	desc "Populates the DB with planes for each flight in it."
+	task :populate_planes => :environment do
+		puts "Populating planes"
+		flight = Flight.all
+		flight.each do |pl|
+			pl.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: (4220 + flight.index(pl)))
+
+			puts "Populating planes %" + (flight.index(pl) / (flight.length / 100)).to_s + " complete."
+		end
+	end
+end
+
+
 namespace :db  do
   desc "Populates the DB with frequent flier programs."
   task :populate_ff => :environment do
