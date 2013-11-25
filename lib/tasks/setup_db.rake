@@ -59,7 +59,7 @@ namespace :db  do
     #50.times{Agent.create(name: )}
     client = Client.all
     (1..50).each do |cc|
-    	client[cc-1].credit_cards.create(cvv2: 100+cc, expiration: Date.today + (30*24*60*60), number: 1234123412341234+cc)
+    	client[cc-1].credit_cards.create(cvv2: 100+cc, expiration: Date.today + (712), number: 1234123412341234+cc)
     	puts "Populating clients %" + (cc*2).to_s + " complete."
     end
   end
@@ -106,7 +106,6 @@ namespace :db do
 		end
 	end
 end
-
 
 
 namespace :db  do
