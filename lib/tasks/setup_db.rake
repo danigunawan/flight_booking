@@ -107,6 +107,20 @@ namespace :db do
 	end
 end
 
+namespace :db do
+	desc "Populates the DB with flight reservations."
+	task :populate_flight_reservations => :environment do
+		puts "Populating flight reservations"
+		client = Client.all
+		flight = Flight.all
+		reservation = Reservation.all
+
+		(0..49).each do |fr|
+			reservation[fr].flight_reservations.create(flight_id: flight[fr].id)
+			puts "Populating flight reservations %" + (fr*2).to_s + " complete."
+		end
+	end
+end
 
 namespace :db  do
   desc "Populates the DB with flights, frequent flier programs, agents, clients and "
