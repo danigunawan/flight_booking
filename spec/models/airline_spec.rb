@@ -29,7 +29,7 @@ describe Airline do
 
 	describe "Relationships: " do
 		before do
-			@airportairline = @airport.airport_airlines.build(airline_id: @airline.id)
+			@airportairline = @airline.airport_airlines.build(airport_id: @airport.id)
 			@airportairline.save
 			@flight = @airline.flights.build(airline_id: @airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: @airport.id)
 			@flight.save
