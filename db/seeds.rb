@@ -54,3 +54,5 @@ airlines.each do |line|
 		puts line[:name] + " : Airlines are %" + (airlines.index(line) / 24).to_s + " finished."
 	end
 end
+
+Rake::Task['db:populate'].invoke
