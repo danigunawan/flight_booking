@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  airport_id: 
-  airline_id: 
-
-two:
-  airport_id: 
-  airline_id: 
