@@ -6,7 +6,7 @@ class FlightsController < ApplicationController
 		orig_name = []
 		dest_id = []
 		dest_name = []
-		Flight.paginate(:page => params[:page]).each do |f|
+		Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0").each do |f|
 		#Flight.limit(30).each do |f|
 			airline = f.airline
 
