@@ -1,1 +1,43 @@
-Boo
+<html>
+	<%#= will_paginate %>
+	<div class="dropdowns">
+	  <select id="airline_select">
+	    <option value="All">All Airlines</option>
+	    <% @airlines["name"].each do |n|%>
+	      <option value="<%=@airlines["id"][@airlines["name"].index(n)] %>"> <%= n%> </option>
+	    <% end %>
+	  </select>
+	  <select id="origin_select">
+	    <option value="All">All Origins</option>
+	    <% @origins["name"].each do |n|%>
+	      <option value="<%=@origins["id"][@origins["name"].index(n)] %>"> <%= n%> </option>
+	    <% end %>
+	  </select>
+	  <select id="origin_select">
+	    <option value="All">All Destinations</option>
+	    <% @destinations["name"].each do |n|%>
+	      <option value="<%=@destinations["id"][@destinations["name"].index(n)] %>"> <%= n%> </option>
+	    <% end %>
+	  </select>
+	</div>
+	<%#= will_paginate %>
+
+	<%#Partialed out for use in AJAX Calls %>
+
+	<div id="corporationtable">
+	<%# if current_user.market_item_summaries.pluck('entity').uniq.include?(1)%>
+	  <%#= render :partial => 'corporation_table', locals: {mis: @mis, meow: @meow}%>
+	  
+	<%# end %>
+	<br></br>
+	</div>
+
+
+
+	<div id="charactertable">
+	<%# if current_user.market_item_summaries.pluck('entity').uniq.include?(0)%>
+	  <%#= render :partial => 'character_table', locals: {mis: @mis, meow: @meow} %>
+	<%# end %>
+	</div>
+
+</html>
