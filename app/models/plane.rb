@@ -30,6 +30,7 @@ class Plane < ActiveRecord::Base
   validates :flight_id, presence: true
 
   def update_flight_seats_avail
-  	self.flight.update_attributes(eco_avail: self.eco_cap, bus_avail: self.bus_cap)
+  	self.flight.set_seat_count(self)
+  	#self.flight.update_attributes(eco_avail: self.eco_cap, bus_avail: self.bus_cap)
   end
 end
