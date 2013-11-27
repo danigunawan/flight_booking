@@ -17,7 +17,7 @@
 class Plane < ActiveRecord::Base
   attr_accessible :bus_cap, :eco_cap, :manufacturer, :prop_type, :tail_num, :make
 
-  after_save :update_flight_seats_avail
+  after_save :update_flight
 
   belongs_to :flight
 
@@ -29,8 +29,8 @@ class Plane < ActiveRecord::Base
   validates :tail_num, presence: true
   validates :flight_id, presence: true
 
-  def update_flight_seats_avail
+  #sends itself to the flight after being saved.
+  def update_flight
   	self.flight.set_seat_count(self)
-  	#self.flight.update_attributes(eco_avail: self.eco_cap, bus_avail: self.bus_cap)
   end
 end

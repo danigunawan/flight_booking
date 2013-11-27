@@ -49,7 +49,7 @@ describe Flight do
 
 	describe "Associations: " do
 		before do
-			@plane = @flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
+			@plane = @flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 			@client = Client.create(address: "435 Test Street", name: "Tester", phone: 6505552832)
 			@frequentflier = @airline.build_frequent_flier(discount: 5)
 			@frequentflier.save
@@ -72,6 +72,18 @@ describe Flight do
 
 		it "should have a plane with tail number 4285" do
 			@flight.plane.tail_num.should be 4285
+		end
+
+		describe "Call Backs: " do
+			before {@flight = Flight.where("id = ?", @flight.id)[0]}
+
+			it "should update bus_avail on flight" do
+				@flight.bus_avail.should eq @plane.bus_cap
+			end
+
+			it "should update eco_avail on flight" do
+				@flight.eco_avail.should eq @plane.eco_cap
+			end
 		end
 	end
 

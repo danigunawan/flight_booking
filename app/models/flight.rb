@@ -37,6 +37,7 @@ class Flight < ActiveRecord::Base
   validates :number, presence: true
   validates :origin_airport, presence: true
 
+  #set's the seat count for the flight based on the number of seats in the plane.
   def set_seat_count(plane)
     self.eco_avail = plane.eco_cap
     self.bus_avail = plane.bus_cap
