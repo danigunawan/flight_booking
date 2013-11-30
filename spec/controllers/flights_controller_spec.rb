@@ -27,5 +27,11 @@ describe FlightsController do
 			get :show
 			expect(assigns(:origins)).to eq(origin)
 		end
+
+		it "should create an array called @display_prices that contains available prices to the next greatest 100" do
+			price = [300, 500]
+			get :show
+			expect(assigns(:display_prices)).to eq(price)
+		end
 	end
 end

@@ -24,7 +24,14 @@ namespace :db  do
 
     airline.each do |line|
     	line.airports.each do |port|
-    		line.flights.create(arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: (line.airports[rand(0..line.airports.length-1)].id), number: (airline.index(line)+line.airports.index(port)), origin_airport: port.id)
+    		line.flights.create(arrival: DateTime.now+(5/24.0), 
+          bus_fare: (line.airports.index(port).even? ? 500 : 800), 
+          eco_fare: (line.airports.index(port).even? ? 250 : 350), 
+          date: Date.today, 
+          departure: DateTime.now+(1/24.0), 
+          destination_airport: (line.airports[rand(0..line.airports.length-1)].id), 
+          number: (airline.index(line)+line.airports.index(port)), 
+          origin_airport: port.id)
     	end
     	puts "Seeding Flights %" + (airline.index(line) / (airline.length / 100)).to_s + " complete."
     end
