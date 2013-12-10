@@ -35,8 +35,8 @@ describe "FlightPage" do
 			should have_selector('select#price_select')
 		end
 
-		it "should contain a select" do
-
+		it "should contain an input with id 'select_date'" do
+			should have_selector('input#select_date')
 		end
 	end
 	

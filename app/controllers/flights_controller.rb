@@ -7,6 +7,8 @@ class FlightsController < ApplicationController
 		dest_id = []
 		dest_name = []
 		fares = []
+		departure_dt = []
+		arrival_dt = []
 		Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0").each do |f|
 		#Flight.limit(30).each do |f|
 			airline = f.airline
@@ -16,6 +18,8 @@ class FlightsController < ApplicationController
 			dest_id.include?(f.destination_airport) ? nil : dest_id.push(f.destination_airport)
 			fares.include?(f.eco_fare) ? nil : fares.push(f.eco_fare)
 			fares.include?(f.bus_fare) ? nil : fares.push(f.bus_fare)
+			departure_dt.include?(f.departure) ? nil : departure_dt.push(f.departure)
+			arrival_dt.include?(f.arrival) ? nil : arrival_dt.push(f.arrival)
 		end
 		@airlines = {"name" => name, "id" => id}
 
@@ -36,6 +40,19 @@ class FlightsController < ApplicationController
 				@display_prices.push(next_hundred)
 			end
 		end
+
+		@departure_date = []
+		departure_dt.each do |dt|
+			dd = dt.to_date
+			unless @departure_date.include?(dd)
+				@departure_date.push(dt)
+			end
+		end
+
+		#use a jquery date picker for date selection.
+		#http://jqueryui.com/datepicker/
+		@dater = @departure_date[0]
+		#date = Date.parse(@date)
 
 
 		#@airlines = {"name" => Flight.limit(30).each {|f| f.airline.name}, "id" => Flight.limit(30).each {|f| f.airline.id}}

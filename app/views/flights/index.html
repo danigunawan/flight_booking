@@ -13,12 +13,20 @@
 	      <option value="<%=@origins["id"][@origins["name"].index(n)] %>"> <%= n%> </option>
 	    <% end %>
 	  </select>
-	  <select id="origin_select">
+	  <select id="dest_select">
 	    <option value="All">All Destinations</option>
 	    <% @destinations["name"].each do |n|%>
 	      <option value="<%=@destinations["id"][@destinations["name"].index(n)] %>"> <%= n%> </option>
 	    <% end %>
 	  </select>
+	  <select id="price_select">
+	  	<option value="All"> All Prices</option>
+	  	<% @display_prices.each do |dp| %>
+	  		<option value="<%=dp%>"> <%=dp%></option>
+	  	<% end %>
+	  </select>
+	  <%= text_field(:select, :date, :size => 10) %>
+	  <%= select_date(date = Date.current, :prompt => { :day => 'Select day', :month => 'Select month', :year => 'Select year' }) %>
 	</div>
 	<%#= will_paginate %>
 
