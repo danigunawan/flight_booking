@@ -15,6 +15,3 @@
 //= require jquery.ui.all
 //= require_tree .
 
-$(function (){
-        $('#select_date').datepicker();
-});
