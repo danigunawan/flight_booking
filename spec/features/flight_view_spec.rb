@@ -38,6 +38,10 @@ describe "FlightPage" do
 		it "should contain an input with id 'select_date'" do
 			should have_selector('input#select_date')
 		end
+
+		it "should contain a select with id 'min_seats'" do
+			should have_selector('select#min_seats')
+		end
 	end
 	
 
