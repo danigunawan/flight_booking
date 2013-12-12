@@ -19,12 +19,6 @@
 	      <option value="<%=@destinations["id"][@destinations["name"].index(n)] %>"> <%= n%> </option>
 	    <% end %>
 	  </select>
-	  <select id="price_select">
-	  	<option value="All" disabled selected> All Prices</option>
-	  	<% @display_prices.each do |dp| %>
-	  		<option value="<%=dp%>"> <%=dp%></option>
-	  	<% end %>
-	  </select>
 	  <%= text_field(:select, :date, :size => 15, :value => 'Click to select a Date') %>
 	  <select id="min_seats">
 	  	<option value="" disabled selected>Min Seats</option>
@@ -34,25 +28,23 @@
 	  	<option value="4">4</option>
 	  	<option value="5">5</option>
 	  </select>
+	  <select id="price_select">
+	  	<option value="All" disabled selected> All Prices</option>
+	  	<% @display_prices.each do |dp| %>
+	  		<option value="<%=dp%>"> <%=dp%></option>
+	  	<% end %>
+	  </select>
 	</div>
 	<%#= will_paginate %>
 
 	<%#Partialed out for use in AJAX Calls %>
 
-	<div id="corporationtable">
+	<div id="flight_table">
 	<%# if current_user.market_item_summaries.pluck('entity').uniq.include?(1)%>
-	  <%#= render :partial => 'corporation_table', locals: {mis: @mis, meow: @meow}%>
+	  <%= render :partial => 'flight_table'%> <%#, locals: {mis: @mis, meow: @meow}%>
 	  
 	<%# end %>
 	<br></br>
-	</div>
-
-
-
-	<div id="charactertable">
-	<%# if current_user.market_item_summaries.pluck('entity').uniq.include?(0)%>
-	  <%#= render :partial => 'character_table', locals: {mis: @mis, meow: @meow} %>
-	<%# end %>
 	</div>
 
 </html>
