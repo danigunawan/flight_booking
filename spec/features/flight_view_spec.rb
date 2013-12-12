@@ -52,40 +52,82 @@ describe "FlightPage" do
 			should have_selector('tbody#flight_table_tbody')
 		end
 
-		it "should have a th with id 'airline'" do
-			should have_selector('th#airline')
+		describe "table head" do
+			it "should have a th with id 'airline'" do
+				should have_selector('th#airline')
+			end
+
+			it "should have a th with id 'origin'" do
+				should have_selector('th#origin')
+			end
+
+			it "should have a th with id 'destination'" do
+				should have_selector('th#destination')
+			end
+
+			it "should have a th with id 'departure_info'" do
+				should have_selector('th#departure_info')
+			end
+
+			it "should have a th with id 'arrival_info'" do
+				should have_selector('th#arrival_info')
+			end
+
+			it "should have a th with id 'seats_avail'" do
+				should have_selector('th#seats_avail')
+			end
+
+			it "should have a th with id 'price'" do
+				should have_selector('th#price')
+			end
+
+			it "should have a th with id 'reservation_column'" do
+				should have_selector('th#reservation_column')
+			end
 		end
 
-		it "should have a th with id 'origin'" do
-			should have_selector('th#origin')
+		describe "table rows" do
+			it "should have a tr with id 'flight0'" do
+				should have_selector('tr#flight0')
+			end
+
+			it "should have a td with id '0airline'" do
+				should have_selector('td#0airline')
+			end
+
+			it "should have a td with id '0origin'" do
+				should have_selector('td#0origin')
+			end
+
+			it "should have a td with id '0destination'" do
+				should have_selector('td#0destination')
+			end
+
+			it "should have a td with id '0departure_info'" do
+				should have_selector('td#0departure_info')
+			end
+
+			it "should have a td with id '0arrival_info'" do
+				should have_selector('td#0arrival_info')
+			end
+
+			it "should have a td with id '0seats_avail'" do
+				should have_selector('td#0seats_avail')
+			end
+
+			it "should have a td with id '0price'" do
+				should have_selector('td#0price')
+			end
+
+			it "should have a td with id '0reservation'" do
+				should have_selector('td#0reservation')
+			end
 		end
 
-		it "should have a th with id 'destination'" do
-			should have_selector('th#destination')
-		end
-
-		it "should have a th with id 'departure_info'" do
-			should have_selector('th#departure_info')
-		end
-
-		it "should have a th with id 'arrival_info'" do
-			should have_selector('th#arrival_info')
-		end
-
-		it "should have a th with id 'seats_avail'" do
-			should have_selector('th#seats_avail')
-		end
-
-		it "should have a th with id 'price'" do
-			should have_selector('th#price')
-		end
-
-		it "should have a th with id 'reservation_column'" do
-			should have_selector('th#reservation_column')
-		end
-
-		it "should have a tr with id 'flight0'" do
-			should have_selector('tr#flight0')
+		describe "table columns" do
+			it "should have a table column with a reserve flight button" do
+				should have_selector('button.btn', text: "Reserve Flight")
+			end
 		end
 	end
 end

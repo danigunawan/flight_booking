@@ -9,7 +9,9 @@ class FlightsController < ApplicationController
 		fares = []
 		departure_dt = []
 		arrival_dt = []
-		Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0").each do |f|
+		@flight = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
+
+		@flight.each do |f|
 		#Flight.limit(30).each do |f|
 			airline = f.airline
 			id.include?(airline.id) ? nil : id.push(f.airline.id)
@@ -51,7 +53,7 @@ class FlightsController < ApplicationController
 
 		#use a jquery date picker for date selection.
 		#http://jqueryui.com/datepicker/
-		@dater = @departure_date[0]
+		#@dater = @departure_date[0]
 		#date = Date.parse(@date)
 
 
