@@ -7,9 +7,11 @@ describe "FlightTable" do
 		airline = Airline.create(name: "Virgin America", phone: 5551234567)
 		flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
 		flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
+		@flights = flight
+		@origins = {"name" => airport1.name, "id" => airport1.id}
 	end
 
 	it "should have a tbody with id 'flight_tbody'" do
-		render :partial => "flights/flight_table.html.erb"
+		render :partial => "flights/flight_table.html.erb", :locals => {:flights => @flights, :origins => @origins}
 	end
 end
