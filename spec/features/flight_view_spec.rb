@@ -9,8 +9,7 @@ describe "FlightPage" do
 		airline = Airline.create(name: "Virgin America", phone: 5551234567)
 		flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
 		flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-			visit root_path
-			
+			visit root_path	
 	end
 
 	
@@ -43,6 +42,50 @@ describe "FlightPage" do
 			should have_selector('select#min_seats')
 		end
 	end
-	
 
+	describe "flight table" do
+		it "should contain a div with id 'flight_table'" do
+			should have_selector('div#flight_table')
+		end
+
+		it "should render _flight_table" do
+			should have_selector('tbody#flight_table_tbody')
+		end
+
+		it "should have a th with id 'airline'" do
+			should have_selector('th#airline')
+		end
+
+		it "should have a th with id 'origin'" do
+			should have_selector('th#origin')
+		end
+
+		it "should have a th with id 'destination'" do
+			should have_selector('th#destination')
+		end
+
+		it "should have a th with id 'departure_info'" do
+			should have_selector('th#departure_info')
+		end
+
+		it "should have a th with id 'arrival_info'" do
+			should have_selector('th#arrival_info')
+		end
+
+		it "should have a th with id 'seats_avail'" do
+			should have_selector('th#seats_avail')
+		end
+
+		it "should have a th with id 'price'" do
+			should have_selector('th#price')
+		end
+
+		it "should have a th with id 'reservation_column'" do
+			should have_selector('th#reservation_column')
+		end
+
+		it "should have a tr with id 'flight0'" do
+			should have_selector('tr#flight0')
+		end
+	end
 end
