@@ -9,9 +9,9 @@ class FlightsController < ApplicationController
 		fares = []
 		departure_dt = []
 		arrival_dt = []
-		@flight = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
+		@flights = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
 
-		@flight.each do |f|
+		@flights.each do |f|
 		#Flight.limit(30).each do |f|
 			airline = f.airline
 			id.include?(airline.id) ? nil : id.push(f.airline.id)

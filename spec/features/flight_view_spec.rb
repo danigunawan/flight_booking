@@ -4,6 +4,10 @@ describe "FlightPage" do
 	subject {page}
 
 	before do
+		#Stub the time for accurate checks.
+		@time_now = DateTime.parse('3rd Feb 2013 04:05:06 PM')
+		DateTime.stub(:now).and_return(@time_now)
+
 		airport1 = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
 		airport2 = Airport.create(city: "Los Angeles", country: "United States of America", i_code: "LAX", name: "Los Angeles International Airport", phone: 6508218222)
 		airline = Airline.create(name: "Virgin America", phone: 5551234567)
@@ -91,42 +95,37 @@ describe "FlightPage" do
 				should have_selector('tr#flight0')
 			end
 
-			it "should have a td with id '0airline'" do
-				should have_selector('td#0airline')
+			it "should have a td with id '0airline' and text of Virgin America" do
+				should have_selector('td#0airline', text: 'Virgin America')
 			end
 
-			it "should have a td with id '0origin'" do
-				should have_selector('td#0origin')
+			it "should have a td with id '0origin' and text of SFO" do
+				should have_selector('td#0origin', text: 'SFO')
 			end
 
-			it "should have a td with id '0destination'" do
-				should have_selector('td#0destination')
+			it "should have a td with id '0destination' and text of LAX" do
+				should have_selector('td#0destination', text: 'LAX')
 			end
 
-			it "should have a td with id '0departure_info'" do
-				should have_selector('td#0departure_info')
+			it "should have a td with id '0departure_info' and text matching @time_now + 1" do
+				should have_selector('td#0departure_info', text: @time_now+(1/24.0))
 			end
 
-			it "should have a td with id '0arrival_info'" do
-				should have_selector('td#0arrival_info')
+			it "should have a td with id '0arrival_info' and text matching @time_now + 5 hours" do
+				should have_selector('td#0arrival_info', text: @time_now+(5/24.0))
 			end
 
-			it "should have a td with id '0seats_avail'" do
-				should have_selector('td#0seats_avail')
+			it "should have a td with id '0seats_avail and text of '162'" do
+				should have_selector('td#0seats_avail', text: 162)
 			end
 
-			it "should have a td with id '0price'" do
-				should have_selector('td#0price')
+			it "should have a td with id '0price' and text of '250'" do
+				should have_selector('td#0price', text: 250)
 			end
 
-			it "should have a td with id '0reservation'" do
+			it "should have a td with id '0reservation' and reservation button" do
 				should have_selector('td#0reservation')
-			end
-		end
-
-		describe "table columns" do
-			it "should have a table column with a reserve flight button" do
-				should have_selector('button.btn', text: "Reserve Flight")
+				should have_selector('td#0reservation button.btn', text: "Reserve Flight")
 			end
 		end
 	end

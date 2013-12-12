@@ -10,25 +10,17 @@
     <th id="reservation_column"></th>
   </thead>
   <tbody id="flight_table_tbody">
-        <tr id="flight0">
-            <td id="0airline">I'm a fuckup</td>
-            <td id="0origin">I'm a fuckup</td>
-            <td id="0destination">I'm a fuckup</td>
-            <td id="0departure_info">I'm a fuckup</td>
-            <td id="0arrival_info">I'm a fuckup</td>
-            <td id="0seats_avail">I'm a fuckup</td>
-            <td id="0price">I'm a fuckup</td>
-            <td id="0reservation"><button type="button" class="btn btn-primary">Reserve Flight</button></td>
+    <% @flights.each do |f| %>
+        <tr id="flight<%=@flights.index(f)%>">
+            <td id="<%=@flights.index(f)%>airline"><%=f.airline.name%></td>
+            <td id="<%=@flights.index(f)%>origin"><%=f.origin_airport%></td>
+            <td id="<%=@flights.index(f)%>destination">I'm a fuckup</td>
+            <td id="<%=@flights.index(f)%>departure_info">I'm a fuckup</td>
+            <td id="<%=@flights.index(f)%>arrival_info">I'm a fuckup</td>
+            <td id="<%=@flights.index(f)%>seats_avail">I'm a fuckup</td>
+            <td id="<%=@flights.index(f)%>price">I'm a fuckup</td>
+            <td id="<%=@flights.index(f)%>reservation"><button type="button" class="btn btn-primary">Reserve Flight</button></td>
         </tr>
-        <tr id="flight1">
-            <td>I'm a fuckup</td>
-            <td>I'm a fuckup</td>
-            <td>I'm a fuckup</td>
-            <td>I'm a fuckup</td>
-            <td>I'm a fuckup</td>
-            <td>I'm a fuckup</td>
-            <td>I'm a fuckup</td>
-            <td><button type="button" class="btn btn-primary">Reserve Flight</button></td>
-        </tr>
+    <% end %>
   </tbody>
 </table>

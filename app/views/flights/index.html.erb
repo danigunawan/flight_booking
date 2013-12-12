@@ -41,7 +41,7 @@
 
 	<div id="flight_table">
 	<%# if current_user.market_item_summaries.pluck('entity').uniq.include?(1)%>
-	  <%= render :partial => 'flight_table'%> <%#, locals: {mis: @mis, meow: @meow}%>
+	  <%= render :partial => 'flight_table', locals: {flights: @flights}%>
 	  
 	<%# end %>
 	<br></br>
