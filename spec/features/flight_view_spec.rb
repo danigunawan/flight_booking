@@ -99,12 +99,12 @@ describe "FlightPage" do
 				should have_selector('td#0airline', text: 'Virgin America')
 			end
 
-			it "should have a td with id '0origin' and text of SFO" do
-				should have_selector('td#0origin', text: 'SFO')
+			it "should have a td with id '0origin' and text of San Francisco International Airport" do
+				should have_selector('td#0origin', text: 'San Francisco International Airport')
 			end
 
-			it "should have a td with id '0destination' and text of LAX" do
-				should have_selector('td#0destination', text: 'LAX')
+			it "should have a td with id '0destination' and text of Los Angeles International Airport" do
+				should have_selector('td#0destination', text: 'Los Angeles International Airport')
 			end
 
 			it "should have a td with id '0departure_info' and text matching @time_now + 1" do

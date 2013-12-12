@@ -13,7 +13,10 @@
     <% @flights.each do |f| %>
         <tr id="flight<%=@flights.index(f)%>">
             <td id="<%=@flights.index(f)%>airline"><%=f.airline.name%></td>
-            <td id="<%=@flights.index(f)%>origin"><%=f.origin_airport%></td>
+            <td id="<%=@flights.index(f)%>origin">
+              <%# @origins["id"].each do |o| %>
+                <%= @origins["name"][@flights.index(f)] %>
+                <%# end %></td>
             <td id="<%=@flights.index(f)%>destination">I'm a fuckup</td>
             <td id="<%=@flights.index(f)%>departure_info">I'm a fuckup</td>
             <td id="<%=@flights.index(f)%>arrival_info">I'm a fuckup</td>
