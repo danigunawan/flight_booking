@@ -4,6 +4,7 @@ gem 'rails', '3.2.15'
 gem 'will_paginate'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'bootstrap-sass'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
