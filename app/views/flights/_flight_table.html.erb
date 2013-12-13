@@ -18,9 +18,13 @@
                 <% if f.origin_airport == o %>
                   <%= @origins["name"][@origins["id"].index(o)] %>
                 <% end %>
-                <%#= @origins["name"][@flights.index(f)] %>
               <% end %></td>
-            <td id="<%=@flights.index(f)%>destination">I'm a fuckup</td>
+            <td id="<%=@flights.index(f)%>destination">
+              <% @destinations["id"].each do |d| %>
+                <% if f.destination_airport == d %>
+                  <%= @destinations["name"][@destinations["id"].index(d)] %>
+                <% end %>
+              <% end %></td>
             <td id="<%=@flights.index(f)%>departure_info">I'm a fuckup</td>
             <td id="<%=@flights.index(f)%>arrival_info">I'm a fuckup</td>
             <td id="<%=@flights.index(f)%>seats_avail">I'm a fuckup</td>
