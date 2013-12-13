@@ -11,8 +11,8 @@ describe "FlightPage" do
 		airport1 = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
 		airport2 = Airport.create(city: "Los Angeles", country: "United States of America", i_code: "LAX", name: "Los Angeles International Airport", phone: 6508218222)
 		airline = Airline.create(name: "Virgin America", phone: 5551234567)
-		flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
-		flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
+		@flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
+		@flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 			visit root_path	
 	end
 
@@ -108,11 +108,11 @@ describe "FlightPage" do
 			end
 
 			it "should have a td with id '0departure_info' and text matching @time_now + 1" do
-				should have_selector('td#0departure_info', text: @time_now+(1/24.0))
+				should have_selector('td#0departure_info', text: '2013-02-03 17:05:06 UTC')
 			end
 
 			it "should have a td with id '0arrival_info' and text matching @time_now + 5 hours" do
-				should have_selector('td#0arrival_info', text: @time_now+(5/24.0))
+				should have_selector('td#0arrival_info', text: '2013-02-03 21:05:06 UTC')
 			end
 
 			it "should have a td with id '0seats_avail and text of '162'" do
@@ -121,6 +121,19 @@ describe "FlightPage" do
 
 			it "should have a td with id '0price' and text of '250'" do
 				should have_selector('td#0price', text: 250)
+			end
+
+
+			describe "when economy seats aren't available but business are" do
+
+				before do
+					@flight.eco_avail = 0
+					@flight.save
+				end
+
+				it "should list the lowest price based on seats availability" do
+					should have_selector('td#0price', text: 500)
+				end
 			end
 
 			it "should have a td with id '0reservation' and reservation button" do
