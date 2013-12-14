@@ -113,6 +113,7 @@ describe "FlightPage" do
 
 			it "should have a td with id '0arrival_info' and text matching @time_now + 5 hours" do
 				should have_selector('td#0arrival_info', text: '2013-02-03 21:05:06 UTC')
+				#should have_selector('td#0arrival_info', text: (@time_now+(5/24.0)).to_time.ctime)
 			end
 
 			it "should have a td with id '0seats_avail and text of '162'" do
@@ -129,6 +130,7 @@ describe "FlightPage" do
 				before do
 					@flight.eco_avail = 0
 					@flight.save
+					visit root_path
 				end
 
 				it "should list the lowest price based on seats availability" do
