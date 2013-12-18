@@ -31,6 +31,7 @@ describe Client do
 	it {should respond_to(:preference)}
 
 	describe "Associations: " do
+		let(:agent) {FactoryGirl.create(:agent)}
 		before do
 			@preference = @client.build_preference(seat: "Aisle", location: "Front", notes: "Test this.")
 			@airline = Airline.create(name: "Virgin America", phone: 6505552513)
@@ -41,8 +42,7 @@ describe Client do
 			@cc = @client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
 			@cc.save
 			@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-			@agent = Agent.create(name: "John Mcormik", start_date: Date.today, status: 1)
-			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: @agent.id)
+			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
 			@flight = @airline.flights.build(airline_id: @airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: @airport.id)
 			@flight.save
