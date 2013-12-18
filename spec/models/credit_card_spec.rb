@@ -32,9 +32,9 @@ describe CreditCard do
 
 	describe "Associations: " do
 		let(:agent) {FactoryGirl.create(:agent)}
+		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 		before do
-			@airline = Airline.create(name: "Virgin America", phone: 6505552513)
-			@frequentflier = @airline.build_frequent_flier(discount: 5)
+			@frequentflier = airline.build_frequent_flier(discount: 5)
 			@frequentflier.save
 			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save

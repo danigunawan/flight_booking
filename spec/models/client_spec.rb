@@ -32,10 +32,10 @@ describe Client do
 
 	describe "Associations: " do
 		let(:agent) {FactoryGirl.create(:agent)}
+		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 		before do
 			@preference = @client.build_preference(seat: "Aisle", location: "Front", notes: "Test this.")
-			@airline = Airline.create(name: "Virgin America", phone: 6505552513)
-			@frequentflier = @airline.build_frequent_flier(discount: 5)
+			@frequentflier = airline.build_frequent_flier(discount: 5)
 			@frequentflier.save
 			@frequent_flier_membership = @client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
 			@frequent_flier_membership.save
@@ -44,7 +44,7 @@ describe Client do
 			@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
 			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
-			@flight = @airline.flights.build(airline_id: @airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: @airport.id)
+			@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: @airport.id)
 			@flight.save
 			@plane = @flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 			@flight_reservation = @reservation.flight_reservations.build(flight_id: @flight.id)
