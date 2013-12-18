@@ -22,7 +22,6 @@ describe FlightReservation do
 		@cc = @client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
 		@cc.save
 		
-		#@agent = Agent.create(name: "John Mcormik", start_date: Date.today, status: 1)
 		@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 		@reservation.save
 		@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
