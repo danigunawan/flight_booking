@@ -9,4 +9,13 @@ FactoryGirl.define do
 			status 0
 		end
 	end
+
+	factory :airline do
+		ignore do
+			sequence(:set_name) {|n| "Airline #{n}"}
+		end
+
+		sequence(:phone) {|n| (5551234567 + n) }
+		name {set_name}
+	end
 end
