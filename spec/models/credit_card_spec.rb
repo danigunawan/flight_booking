@@ -31,12 +31,12 @@ describe CreditCard do
 	it {should respond_to(:reservations)}
 
 	describe "Associations: " do
+		let(:agent) {FactoryGirl.create(:agent)}
 		before do
 			@airline = Airline.create(name: "Virgin America", phone: 6505552513)
 			@frequentflier = @airline.build_frequent_flier(discount: 5)
 			@frequentflier.save
-			@agent = Agent.create(name: "John Mcormik", start_date: Date.today, status: 1)
-			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: @agent.id)
+			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
 		end
 
