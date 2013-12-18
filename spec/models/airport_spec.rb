@@ -31,9 +31,9 @@ describe Airport do
 	it {should be_valid}
 
 	describe "Relationships: " do
+		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 		before do
-			@airline = Airline.create(name: "Virgin America", phone: 6505552513)
-			@airportairline = @airport.airport_airlines.build(airline_id: @airline.id)
+			@airportairline = @airport.airport_airlines.build(airline_id: airline.id)
 			@airportairline.save
 		end
 		it "should have Virgin America as an airline" do

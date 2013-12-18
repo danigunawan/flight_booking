@@ -12,10 +12,10 @@
 require 'spec_helper'
 
 describe AirportAirline do
+	let(:airline) {FactoryGirl.create(:airline)}
 	before do
 		@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-		@airline = Airline.create(name: "Virgin America", phone: 6505552513)
-		@airportairline = @airport.airport_airlines.build(airline_id: @airline.id)
+		@airportairline = @airport.airport_airlines.build(airline_id: airline.id)
 	end
 
 	subject {@airportairline}
