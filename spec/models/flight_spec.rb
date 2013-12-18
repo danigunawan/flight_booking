@@ -48,6 +48,7 @@ describe Flight do
 	it {should be_valid}
 
 	describe "Associations: " do
+		let(:agent) {FactoryGirl.create(:agent)}
 		before do
 			@plane = @flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 			@client = Client.create(address: "435 Test Street", name: "Tester", phone: 6505552832)
@@ -55,8 +56,7 @@ describe Flight do
 			@frequentflier.save
 			@cc = @client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
 			@cc.save
-			@agent = Agent.create(name: "John Mcormik", start_date: Date.today, status: 1)
-			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: @agent.id)
+			@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
 			@flight_reservation = @reservation.flight_reservations.build(flight_id: @flight.id)
 			@flight_reservation.save
