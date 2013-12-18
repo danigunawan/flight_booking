@@ -22,7 +22,7 @@ describe Agent do
 		@frequentflier.save
 		@cc = @client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
 		@cc.save
-		@agent = Agent.create(name: "John Mcormik", start_date: Date.today, status: 1)	
+		@agent = Agent.create(name: "John Mcormik", start_date: Date.today, status: 1)
 	end
 
 	subject{@agent}
