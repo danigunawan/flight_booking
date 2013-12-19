@@ -13,9 +13,7 @@ require 'spec_helper'
 
 describe Airline do
 	let(:airline) {FactoryGirl.create(:airline)}
-	before do
-		@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-	end
+	let(:airport) {FactoryGirl.create(:airport, :set_name => "San Francisco International Airport")}
 
 	subject{airline}
 
@@ -29,9 +27,9 @@ describe Airline do
 
 	describe "Relationships: " do
 		before do
-			@airportairline = airline.airport_airlines.build(airport_id: @airport.id)
-			@airportairline.save
-			@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: @airport.id)
+			airportairline = airline.airport_airlines.build(airport_id: airport.id)
+			airportairline.save
+			@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: airport.id)
 			@flight.save
 			@frequentflier = airline.build_frequent_flier(discount: 5)
 			@frequentflier.save

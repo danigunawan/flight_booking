@@ -2,16 +2,15 @@ require 'spec_helper'
 
 describe "FlightPage" do
 	subject {page}
+	let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
+	let(:airport1) {FactoryGirl.create(:airport, :set_name => "San Francisco International Airport")}
+	let(:airport2) {FactoryGirl.create(:airport, :set_name => "Los Angeles International Airport")}
 
 	before do
 		#Stub the time for accurate checks.
 		@time_now = DateTime.parse('3rd Feb 2013 04:05:06 PM')
 		DateTime.stub(:now).and_return(@time_now)
-
-		airport1 = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-		airport2 = Airport.create(city: "Los Angeles", country: "United States of America", i_code: "LAX", name: "Los Angeles International Airport", phone: 6508218222)
-		@airline = Airline.create(name: "Virgin America", phone: 5551234567)
-		@flight = @airline.flights.create(airline_id: @airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
+		@flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
 		@flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 			visit root_path	
 	end
@@ -53,7 +52,7 @@ describe "FlightPage" do
 		end
 
 		it "should contain an option for each airline" do
-			page.has_select?('airline_select', :with_options => [@airline.name])
+			page.has_select?('airline_select', :with_options => [airline.name])
 		end
 	end
 

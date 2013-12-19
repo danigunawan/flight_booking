@@ -22,9 +22,9 @@ require 'spec_helper'
 
 describe Flight do
 	let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
+	let(:airport) {FactoryGirl.create(:airport)}
 	before do
-		@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-		@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: @airport.id)
+		@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: airport.id)
 		@flight.save
 	end
 

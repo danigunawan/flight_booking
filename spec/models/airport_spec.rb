@@ -15,11 +15,9 @@
 require 'spec_helper'
 
 describe Airport do
-	before do
-		@airport = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-	end
+	let(:airport) {FactoryGirl.create(:airport)}
 
-	subject{@airport}
+	subject{airport}
 
 	it {should respond_to(:city)}
 	it {should respond_to(:country)}
@@ -33,37 +31,37 @@ describe Airport do
 	describe "Relationships: " do
 		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 		before do
-			@airportairline = @airport.airport_airlines.build(airline_id: airline.id)
-			@airportairline.save
+			airportairline = airport.airport_airlines.build(airline_id: airline.id)
+			airportairline.save
 		end
 		it "should have Virgin America as an airline" do
-			@airport.airlines[0].name.should eql("Virgin America")
+			airport.airlines[0].name.should eql("Virgin America")
 		end
 	end
 
 	describe "Validations: " do
 		describe "should validate presence of city" do
-			before {@airport.city = nil}
+			before {airport.city = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should valiate that country is present" do
-			before {@airport.country = nil}
+			before {airport.country = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that i_code is present" do
-			before {@airport.i_code = nil}
+			before {airport.i_code = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that name is present" do
-			before {@airport.name = nil}
+			before {airport.name = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that phone is present" do
-			before {@airport.phone = nil}
+			before {airport.phone = nil}
 			it {should_not be_valid}
 		end
 	end

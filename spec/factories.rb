@@ -18,4 +18,19 @@ FactoryGirl.define do
 		sequence(:phone) {|n| (5551234567 + n) }
 		name {set_name}
 	end
+
+	factory :airport do
+		ignore do
+			sequence(:set_city) {|n| "City #{n}"}
+			sequence(:set_country) {|n| "Country #{n}"}
+			sequence(:set_i_code) {|n| "Icode #{n}"}
+			sequence(:set_name) {|n| "Airport #{n}"}
+		end
+
+		sequence(:phone) {|n| (1231233214 + n)}
+		city {set_city}
+		country {set_country}
+		i_code {set_i_code}
+		name {set_name}
+	end
 end
