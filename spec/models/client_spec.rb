@@ -34,8 +34,8 @@ describe Client do
 		let(:airport) {FactoryGirl.create(:airport)}
 		let(:cc) {FactoryGirl.create(:credit_card, client: client, :set_cvv2 => 123)}
 		let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
+		let!(:preference) {FactoryGirl.create(:preference, client: client)}
 		before do
-			@preference = client.build_preference(seat: "Aisle", location: "Front", notes: "Test this.")
 			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: frequentflier.id)
 			@frequent_flier_membership.save
 			@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)

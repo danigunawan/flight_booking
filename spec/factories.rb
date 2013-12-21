@@ -96,8 +96,35 @@ FactoryGirl.define do
 		airline
 	end
 
-	factory :reservation do
+	factory :preference do
+		ignore do
+			set_seat "Aisle"
+			set_location "Front"
+			set_notes "Test this."
+		end
 
+		seat {set_seat}
+		location {set_location}
+		notes {set_notes}
+
+		client
+	end
+
+
+	factory :reservation do
+		ignore do
+			set_frequent_flier_id
+			set_credit_card_id
+			set_preference_id
+			set_status 0
+			set_agent_id
+		end
+
+		client
+		agent
+		credit_card
+		frequent_flier
+		preference
 	end
 
 

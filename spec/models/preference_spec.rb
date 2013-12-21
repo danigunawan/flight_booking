@@ -15,11 +15,9 @@ require 'spec_helper'
 
 describe Preference do
 	let(:client) {FactoryGirl.create(:client, :set_name => "Tester")}
-	before do
-		@preference = client.build_preference(seat: "Aisle", location: "Front", notes: "Test this.")
-	end
+	let(:preference) {FactoryGirl.create(:preference, client: client)}
 
-	subject{@preference}
+	subject{preference}
 
 	it {should be_valid}
 
@@ -30,7 +28,7 @@ describe Preference do
 
 	describe "Associations: " do
 		it "should belong to a client named Tester" do
-			@preference.client.name.should match "Tester"
+			preference.client.name.should match "Tester"
 		end
 	end
 end
