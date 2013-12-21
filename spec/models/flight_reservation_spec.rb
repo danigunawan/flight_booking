@@ -16,14 +16,14 @@ describe FlightReservation do
 	let(:agent) {FactoryGirl.create(:agent)}
 	let(:airline) {FactoryGirl.create(:airline)}
 	let(:airport) {FactoryGirl.create(:airport)}
+	let(:client) {FactoryGirl.create(:client)}
 	before do
-		@client = Client.create(address: "435 Test Street", name: "Tester", phone: 6505552832)
 		@frequentflier = airline.build_frequent_flier(discount: 5)
 		@frequentflier.save
-		@cc = @client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
+		@cc = client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
 		@cc.save
 		
-		@reservation = @client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
+		@reservation = client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 		@reservation.save
 		@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: airport.id)
 		@flight.save

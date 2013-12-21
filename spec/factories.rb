@@ -33,4 +33,15 @@ FactoryGirl.define do
 		i_code {set_i_code}
 		name {set_name}
 	end
+
+	factory :client do
+		ignore do
+			sequence(:set_address) {|n| "#{n} Test Street"}
+			sequence(:set_name) {|n| "Client #{n}"}
+			sequence(:set_phone) {|n| (5551234432 + n)}
+		end
+		address {set_address}
+		name {set_name}
+		phone {set_phone}
+	end
 end

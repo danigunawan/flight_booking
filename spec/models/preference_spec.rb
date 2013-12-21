@@ -14,9 +14,9 @@
 require 'spec_helper'
 
 describe Preference do
+	let(:client) {FactoryGirl.create(:client, :set_name => "Tester")}
 	before do
-		@client = Client.create(address: "435 Test Street", name: "Tester", phone: 6505552832)
-		@preference = @client.build_preference(seat: "Aisle", location: "Front", notes: "Test this.")
+		@preference = client.build_preference(seat: "Aisle", location: "Front", notes: "Test this.")
 	end
 
 	subject{@preference}

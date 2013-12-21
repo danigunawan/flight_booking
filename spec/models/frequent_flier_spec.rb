@@ -13,8 +13,8 @@ require 'spec_helper'
 
 describe FrequentFlier do
 	let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
+	let(:client) {FactoryGirl.create(:client, :set_name => "Tester")}
 	before do
-		@client = Client.create(address: "435 Test Street", name: "Tester", phone: 6505552832)
 		@frequentflier = airline.build_frequent_flier(discount: 5)
 		@frequentflier.save
 	end
@@ -29,7 +29,7 @@ describe FrequentFlier do
 
 	describe "Associations: " do
 		before do
-			@frequent_flier_membership = @client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
+			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
 			@frequent_flier_membership.save
 		end
 		
