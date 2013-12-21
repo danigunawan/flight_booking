@@ -48,11 +48,10 @@ describe Flight do
 		let(:agent) {FactoryGirl.create(:agent)}
 		let(:client) {FactoryGirl.create(:client, :set_name => "Tester")}
 		let(:cc) {FactoryGirl.create(:credit_card, client: client)}
+		let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
 		before do
 			@plane = flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-			@frequentflier = airline.build_frequent_flier(discount: 5)
-			@frequentflier.save
-			@reservation = client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
+			@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
 			flight_reservation = @reservation.flight_reservations.build(flight_id: flight.id)
 			flight_reservation.save

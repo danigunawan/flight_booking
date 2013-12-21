@@ -33,13 +33,12 @@ describe Client do
 		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 		let(:airport) {FactoryGirl.create(:airport)}
 		let(:cc) {FactoryGirl.create(:credit_card, client: client, :set_cvv2 => 123)}
+		let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
 		before do
 			@preference = client.build_preference(seat: "Aisle", location: "Front", notes: "Test this.")
-			@frequentflier = airline.build_frequent_flier(discount: 5)
-			@frequentflier.save
-			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
+			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: frequentflier.id)
 			@frequent_flier_membership.save
-			@reservation = client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
+			@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
 			@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: airport.id)
 			@flight.save
@@ -53,7 +52,7 @@ describe Client do
 		end
 
 		it "should have a frequent flier clients with frequent flier" do
-			client.frequent_flier_clients[0].frequent_flier_id.should be @frequentflier.id
+			client.frequent_flier_clients[0].frequent_flier_id.should be frequentflier.id
 		end
 
 		it "should have a credit card with cvv2 123" do

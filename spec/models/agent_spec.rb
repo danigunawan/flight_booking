@@ -19,10 +19,7 @@ describe Agent do
 	let (:airline) {FactoryGirl.create(:airline)}
 	let (:client) {FactoryGirl.create(:client, :set_name => "Tester")}
 	let (:cc) {FactoryGirl.create(:credit_card, client: client)}
-	before do
-		@frequentflier = airline.build_frequent_flier(discount: 5)
-		@frequentflier.save
-	end
+	let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
 
 	subject{agent}
 
@@ -35,7 +32,7 @@ describe Agent do
 
 	describe "Associations: " do
 		before do
-			@reservation = client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
+			@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
 	end
 		it "should have a reservation with a client named Tester" do

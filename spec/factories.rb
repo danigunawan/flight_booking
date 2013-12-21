@@ -86,4 +86,19 @@ FactoryGirl.define do
 
 		airline
 	end
+
+	factory :frequent_flier do
+		ignore do 
+			sequence(:set_discount) {|n| n}
+		end
+
+		discount {set_discount}
+		airline
+	end
+
+	factory :reservation do
+
+	end
+
+
 end

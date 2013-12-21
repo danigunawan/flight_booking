@@ -14,12 +14,9 @@ require 'spec_helper'
 describe FrequentFlier do
 	let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 	let(:client) {FactoryGirl.create(:client, :set_name => "Tester")}
-	before do
-		@frequentflier = airline.build_frequent_flier(discount: 5)
-		@frequentflier.save
-	end
+	let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
 
-	subject{@frequentflier}
+	subject{frequentflier}
 
 	it {should respond_to(:airline)}
 	it {should respond_to(:discount)}
@@ -29,27 +26,27 @@ describe FrequentFlier do
 
 	describe "Associations: " do
 		before do
-			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: @frequentflier.id)
+			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: frequentflier.id)
 			@frequent_flier_membership.save
 		end
 		
 		it "should have an airline with the name Virgin America" do
-			@frequentflier.airline.name.should match "Virgin America"
+			frequentflier.airline.name.should match "Virgin America"
 		end
 
 		it "should have a client with the name Tester" do
-			@frequentflier.clients[0].name.should match "Tester"
+			frequentflier.clients[0].name.should match "Tester"
 		end
 	end
 
 	describe "Validations: " do
 		describe "it should validate that airline_id is present" do
-			before {@frequentflier.airline_id = nil}
+			before {frequentflier.airline_id = nil}
 			it {should_not be_valid}
 		end
 
 		describe "it should validate that discount is present" do
-			before {@frequentflier.discount = nil}
+			before {frequentflier.discount = nil}
 			it {should_not be_valid}
 		end
 	end
