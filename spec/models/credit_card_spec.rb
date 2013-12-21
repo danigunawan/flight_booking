@@ -16,12 +16,9 @@ require 'spec_helper'
 
 describe CreditCard do
 	let(:client) {FactoryGirl.create(:client, :set_name => "Tester John")}
-	before do
-		@cc = client.credit_cards.build(cvv2: 123, expiration: Date.today, number: 1234123412341234)
-		@cc.save	
-	end
+	let(:cc) {FactoryGirl.create(:credit_card, client: client)}
 
-	subject{@cc}
+	subject{cc}
 
 	it {should be_valid}
 
@@ -36,36 +33,36 @@ describe CreditCard do
 		before do
 			@frequentflier = airline.build_frequent_flier(discount: 5)
 			@frequentflier.save
-			@reservation = client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: @cc.id, preference_id: 5, status: 0, agent_id: agent.id)
+			@reservation = client.reservations.build(frequent_flier_id: @frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
 			@reservation.save
 		end
 
 		it "should belong to a client named Tester John" do
-			@cc.client.name.should match "Tester John"
+			cc.client.name.should match "Tester John"
 		end
 		it "should have a reservation with Virgin America" do
-			FrequentFlier.where("id = ?", @cc.reservations[0].frequent_flier_id)[0].airline.name.should match "Virgin America"
+			FrequentFlier.where("id = ?", cc.reservations[0].frequent_flier_id)[0].airline.name.should match "Virgin America"
 		end
 	end
 
 	describe "Validations: " do
 		describe "should validate that cvv2 is present" do
-			before {@cc.cvv2 = nil}
+			before {cc.cvv2 = nil}
 			it {should be_invalid}
 		end
 
 		describe "should validate that expiration is present" do
-			before {@cc.expiration = nil}
+			before {cc.expiration = nil}
 			it {should be_invalid}
 		end
 
 		describe "should validate that number is present" do
-			before {@cc.number = nil}
+			before {cc.number = nil}
 			it {should be_invalid}
 		end
 
 		describe "should validate that client_id is present" do
-			before {@cc.client_id = nil}
+			before {cc.client_id = nil}
 			it {should be_invalid}
 		end
 	end

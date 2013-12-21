@@ -34,6 +34,11 @@ FactoryGirl.define do
 		name {set_name}
 	end
 
+	factory :airport_airline do
+		airport
+		airline
+	end
+
 	factory :client do
 		ignore do
 			sequence(:set_address) {|n| "#{n} Test Street"}
@@ -43,5 +48,18 @@ FactoryGirl.define do
 		address {set_address}
 		name {set_name}
 		phone {set_phone}
+	end
+
+	factory :credit_card do
+		ignore do
+			sequence(:set_cvv2) {|n| n}
+			sequence(:set_number) {|n| (1234123412341234 + n)}
+		end
+
+		cvv2 {set_cvv2}
+		number {set_number}
+
+		expiration Date.today
+		client
 	end
 end

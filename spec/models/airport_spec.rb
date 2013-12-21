@@ -30,10 +30,8 @@ describe Airport do
 
 	describe "Relationships: " do
 		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
-		before do
-			airportairline = airport.airport_airlines.build(airline_id: airline.id)
-			airportairline.save
-		end
+		let!(:airportairline) {FactoryGirl.create(:airport_airline, airline: airline, airport: airport)}
+
 		it "should have Virgin America as an airline" do
 			airport.airlines[0].name.should eql("Virgin America")
 		end

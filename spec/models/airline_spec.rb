@@ -26,9 +26,8 @@ describe Airline do
 	it {should be_valid}
 
 	describe "Relationships: " do
+		let!(:airportairline) {FactoryGirl.create(:airport_airline, airport: airport, airline: airline)}
 		before do
-			airportairline = airline.airport_airlines.build(airport_id: airport.id)
-			airportairline.save
 			@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: airport.id)
 			@flight.save
 			@frequentflier = airline.build_frequent_flier(discount: 5)
