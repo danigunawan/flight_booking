@@ -62,4 +62,28 @@ FactoryGirl.define do
 		expiration Date.today
 		client
 	end
+
+	factory :flight do
+		ignore do
+			set_arrival DateTime.now+(5/24.0)
+			sequence(:set_bus_fare) {|n| (500 + n)}
+			sequence(:set_eco_fare) {|n| (250 + n)}
+			set_date Date.today
+			set_departure DateTime.now+(1/24.0)
+			sequence(:set_destination_airport) {|n| n}
+			sequence(:set_number) {|n| (101 + n)}
+			set_origin_airport 0
+		end
+
+		arrival {set_arrival}
+		bus_fare {set_bus_fare}
+		eco_fare {set_eco_fare}
+		date {set_date}
+		departure {set_departure}
+		destination_airport {set_destination_airport}
+		number {set_number}
+		origin_airport {set_origin_airport}
+
+		airline
+	end
 end

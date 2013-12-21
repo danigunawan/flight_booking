@@ -6,9 +6,9 @@ describe FlightsController do
 		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 		let!(:airport1) {FactoryGirl.create(:airport, :set_name => "San Francisco International Airport")}
 		let!(:airport2) {FactoryGirl.create(:airport, :set_name => "Los Angeles International Airport")}
+		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport1.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
 
 		before do
-			flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
 			flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 		end
 

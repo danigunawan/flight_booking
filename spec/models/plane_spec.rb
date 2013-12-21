@@ -19,10 +19,9 @@ require 'spec_helper'
 describe Plane do
 	let(:airline) {FactoryGirl.create(:airline)}
 	let(:airport) {FactoryGirl.create(:airport)}
+	let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_number: 202)}
 	before do
-		@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: airport.id)
-		@flight.save
-		@plane = @flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
+		@plane = flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 	end
 
 	subject{@plane}
