@@ -21,12 +21,9 @@ describe Reservation do
 	let(:client) {FactoryGirl.create(:client, :set_name => "Tester")}
 	let(:cc) {FactoryGirl.create(:credit_card, client: client, :set_cvv2 => 123)}
 	let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
-	before do
-		@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
-		@reservation.save
-	end
+	let(:reservation) {FactoryGirl.create(:reservation, client: client, set_frequent_flier_id: frequentflier.id, set_credit_card_id: cc.id)}
 
-	subject{@reservation}
+	subject{reservation}
 
 	it {should be_valid}
 
@@ -44,55 +41,55 @@ describe Reservation do
 		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_number: 202)}
 		before do
 			@plane = flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-			@flight_reservation = @reservation.flight_reservations.build(flight_id: flight.id)
+			@flight_reservation = reservation.flight_reservations.build(flight_id: flight.id)
 			@flight_reservation.save
 		end
 	
 		it "should belong to a client by the name of Tester" do
-			@reservation.client.name.should match "Tester"
+			reservation.client.name.should match "Tester"
 		end
 
 		it "should have a credit card with cvv2 123" do
-			CreditCard.where("id = ?", @reservation.credit_card_id)[0].cvv2.should be 123
+			CreditCard.where("id = ?", reservation.credit_card_id)[0].cvv2.should be 123
 		end
 
 		it "should have a flight with Virgin America" do
-			@reservation.flights[0].airline.name.should match "Virgin America"
+			reservation.flights[0].airline.name.should match "Virgin America"
 		end
 
 		it "should have a flight reservation with flight 202" do
-			@reservation.flight_reservations[0].flight.number.should be 202
+			reservation.flight_reservations[0].flight.number.should be 202
 		end
 	end
 
 	describe "Validations: " do
 		describe "should validate that client_id is present" do
-			before {@reservation.client_id = nil}
+			before {reservation.client_id = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that frequent_flier_id is present" do
-			before {@reservation.frequent_flier_id = nil}
+			before {reservation.frequent_flier_id = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that credit_id is present" do
-			before {@reservation.credit_card_id = nil}
+			before {reservation.credit_card_id = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that preference_id is present" do
-			before {@reservation.preference_id = nil}
+			before {reservation.preference_id = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that status is present" do
-			before {@reservation.status = nil}
+			before {reservation.status = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate that agent_id is present" do
-			before {@reservation.agent_id = nil}
+			before {reservation.agent_id = nil}
 			it {should_not be_valid}
 		end
 	end

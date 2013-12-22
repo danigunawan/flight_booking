@@ -31,10 +31,7 @@ describe CreditCard do
 		let(:agent) {FactoryGirl.create(:agent)}
 		let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 		let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
-		before do
-			@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
-			@reservation.save
-		end
+		let!(:reservation) {FactoryGirl.create(:reservation, client: client, set_frequent_flier_id: frequentflier.id, set_credit_card_id: cc.id, set_agent_id: agent.id)}
 
 		it "should belong to a client named Tester John" do
 			cc.client.name.should match "Tester John"

@@ -31,10 +31,8 @@ describe Agent do
 	it {should respond_to(:reservations)}
 
 	describe "Associations: " do
-		before do
-			@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
-			@reservation.save
-	end
+		let!(:reservation) {FactoryGirl.create(:reservation, client: client, set_frequent_flier_id: frequentflier.id, set_credit_card_id: cc.id, set_agent_id: agent.id)}
+		
 		it "should have a reservation with a client named Tester" do
 			agent.reservations[0].client.name.should match "Tester"
 		end

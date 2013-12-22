@@ -20,12 +20,11 @@ describe FlightReservation do
 	let(:cc) {FactoryGirl.create(:credit_card, client: client)}
 	let!(:flight) {FactoryGirl.create(:flight, set_origin_airport: airport.id, airline: airline)}
 	let(:frequentflier) {FactoryGirl.create(:frequent_flier, set_discount: 5)}
+	let(:reservation) {FactoryGirl.create(:reservation, client: client, set_frequent_flier_id: frequentflier.id, set_credit_card_id: cc.id, set_agent_id: agent.id)}
 
 	before do
-		@reservation = client.reservations.build(frequent_flier_id: frequentflier.id, credit_card_id: cc.id, preference_id: 5, status: 0, agent_id: agent.id)
-		@reservation.save
 		@plane = flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-		@flight_reservation = @reservation.flight_reservations.build(flight_id: flight.id)
+		@flight_reservation = reservation.flight_reservations.build(flight_id: flight.id)
 		@flight_reservation.save
 	end
 
@@ -60,7 +59,7 @@ describe FlightReservation do
 		end
 
 		it "should not have status == 'Waitlisted' when status is set at build" do
-			@flight_reservation = @reservation.flight_reservations.build(flight_id: flight.id, status: "Reserved")
+			@flight_reservation = reservation.flight_reservations.build(flight_id: flight.id, status: "Reserved")
 			@flight_reservation.status.should match "Reserved"
 		end
 	end
