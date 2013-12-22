@@ -22,8 +22,7 @@ require 'spec_helper'
 
 describe Flight do
 	let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
-	let(:airport) {FactoryGirl.create(:airport)}
-	let!(:flight) {FactoryGirl.create(:flight, set_origin_airport: airport.id, airline: airline)}
+	let!(:flight) {FactoryGirl.create(:flight, airline: airline)}
 
 	subject{flight}
 

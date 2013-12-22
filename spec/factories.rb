@@ -70,9 +70,9 @@ FactoryGirl.define do
 			sequence(:set_eco_fare) {|n| (250 + n)}
 			set_date Date.today
 			set_departure DateTime.now+(1/24.0)
-			sequence(:set_destination_airport) {|n| n}
+			set_destination_airport {FactoryGirl.create(:airport).id}
 			sequence(:set_number) {|n| (101 + n)}
-			set_origin_airport 0
+			set_origin_airport {FactoryGirl.create(:airport).id}
 		end
 
 		arrival {set_arrival}
@@ -110,22 +110,23 @@ FactoryGirl.define do
 		client
 	end
 
-
 	factory :reservation do
-		ignore do
-			set_frequent_flier_id
-			set_credit_card_id
-			set_preference_id
-			set_status 0
-			set_agent_id
-		end
 
 		client
 		agent
-		credit_card
-		frequent_flier
-		preference
+
+		ignore do
+			set_frequent_flier_id {FactoryGirl.create(:frequent_flier).id}
+			set_credit_card_id { FactoryGirl.create(:credit_card, client: client).id }
+			set_preference_id { FactoryGirl.create(:preference, client: client).id}
+			set_status 0
+			set_agent_id {agent.id}	
+		end
+
+		frequent_flier_id {set_frequent_flier_id}
+		credit_card_id {set_credit_card_id}
+		preference_id {set_preference_id}
+		status {set_status}
+		agent_id {set_agent_id}
 	end
-
-
 end
