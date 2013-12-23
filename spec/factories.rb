@@ -139,4 +139,14 @@ FactoryGirl.define do
 
 		flight_id {set_flight_id}
 	end
+
+	factory :frequent_flier_client do
+		client
+
+		ignore do
+			set_frequent_flier_id {FactoryGirl.create(:frequent_flier).id}
+		end
+
+		frequent_flier_id {set_frequent_flier_id}
+	end
 end

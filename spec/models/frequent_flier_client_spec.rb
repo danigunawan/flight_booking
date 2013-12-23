@@ -15,11 +15,9 @@ describe FrequentFlierClient do
 	let(:airline) {FactoryGirl.create(:airline)}
 	let(:client) {FactoryGirl.create(:client)}
 	let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
-	before do
-		@frequentflierclient = client.frequent_flier_clients.build(frequent_flier_id: frequentflier.id)
-	end
+	let(:frequentflierclient) {FactoryGirl.create(:frequent_flier_client, client: client, set_frequent_flier_id: frequentflier.id)}
 
-	subject{@frequentflierclient}
+	subject{frequentflierclient}
 
 	it {should respond_to(:client_id)}
 	it {should respond_to(:frequent_flier_id)}
@@ -28,12 +26,12 @@ describe FrequentFlierClient do
 
 	describe "Validations: " do
 		describe "should validate client_id is present" do
-			before {@frequentflierclient.client_id = nil}
+			before {frequentflierclient.client_id = nil}
 			it {should_not be_valid}
 		end
 
 		describe "should validate frequent_flier_id is present" do
-			before {@frequentflierclient.frequent_flier_id = nil}
+			before {frequentflierclient.frequent_flier_id = nil}
 			it {should_not be_valid}
 		end
 	end

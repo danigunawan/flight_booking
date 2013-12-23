@@ -25,10 +25,7 @@ describe FrequentFlier do
 	it {should be_valid}
 
 	describe "Associations: " do
-		before do
-			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: frequentflier.id)
-			@frequent_flier_membership.save
-		end
+		let!(:frequent_flier_membership) {FactoryGirl.create(:frequent_flier_client, client: client, set_frequent_flier_id: frequentflier.id)}
 		
 		it "should have an airline with the name Virgin America" do
 			frequentflier.airline.name.should match "Virgin America"
