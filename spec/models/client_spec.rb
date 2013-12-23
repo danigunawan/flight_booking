@@ -39,9 +39,7 @@ describe Client do
 		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_number: 202)}
 		let!(:flight_reservation) {FactoryGirl.create(:flight_reservation, reservation: reservation, set_flight_id: flight.id)}
 		let!(:frequent_flier_membership) {FactoryGirl.create(:frequent_flier_client, client: client, set_frequent_flier_id: frequentflier.id)}
-		before do
-			@plane = flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-		end
+		let(:plane) {FactoryGirl.create(:plane, flight: flight)}
 
 		it "should have a frequent flier membership with Virgin America" do
 			client.frequent_flier_memberships[0].airline.name.should match "Virgin America"

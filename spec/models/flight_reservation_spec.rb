@@ -22,10 +22,8 @@ describe FlightReservation do
 	let(:frequentflier) {FactoryGirl.create(:frequent_flier, set_discount: 5)}
 	let(:reservation) {FactoryGirl.create(:reservation, client: client, set_frequent_flier_id: frequentflier.id, set_credit_card_id: cc.id, set_agent_id: agent.id)}
 	let(:flight_reservation) {FactoryGirl.create(:flight_reservation, reservation: reservation, set_flight_id: flight.id)}
+	let(:plane) {FactoryGirl.create(:plane, flight: flight)}
 
-	before do
-		@plane = flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-	end
 
 	subject {flight_reservation}
 

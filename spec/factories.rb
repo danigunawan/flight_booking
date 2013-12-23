@@ -149,4 +149,24 @@ FactoryGirl.define do
 
 		frequent_flier_id {set_frequent_flier_id}
 	end
+
+	factory :plane do
+		flight
+
+		ignore do
+			set_bus_cap 40
+			set_eco_cap 122
+			set_manufacturer "Boeing"
+			set_make "737-800"
+			set_prop_type "Jet"
+			set_tail_num 4285
+		end
+
+		bus_cap {set_bus_cap}
+		eco_cap {set_eco_cap}
+		manufacturer {set_manufacturer}
+		make {set_make}
+		prop_type {set_prop_type}
+		tail_num {set_tail_num}
+	end
 end

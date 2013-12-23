@@ -7,10 +7,7 @@ describe FlightsController do
 		let!(:airport1) {FactoryGirl.create(:airport, :set_name => "San Francisco International Airport")}
 		let!(:airport2) {FactoryGirl.create(:airport, :set_name => "Los Angeles International Airport")}
 		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport1.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
-
-		before do
-			flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-		end
+		let!(:plane) {FactoryGirl.create(:plane, flight: flight)}
 
 		it "should create a hash called airlines that contains an array of names and an array of IDs" do
 			airline = {"name" => ["Virgin America"], "id" => [1]}

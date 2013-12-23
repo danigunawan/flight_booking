@@ -50,9 +50,7 @@ describe Flight do
 		let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
 		let(:reservation) {FactoryGirl.create(:reservation, client: client, set_frequent_flier_id: frequentflier.id, set_credit_card_id: cc.id, set_agent_id: agent.id)}
 		let!(:flight_reservation) {FactoryGirl.create(:flight_reservation, reservation: reservation, set_flight_id: flight.id)}
-		before do
-			@plane = flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-		end
+		let!(:plane) {FactoryGirl.create(:plane, flight: flight)}
 
 		it "should be a flight for Virgin America" do
 			Airline.where("id = ?", flight.airline_id)[0].name.should match "Virgin America"
@@ -70,11 +68,11 @@ describe Flight do
 			before {@flight = Flight.where("id = ?", flight.id)[0]}
 
 			it "should update bus_avail on flight" do
-				@flight.bus_avail.should eq @plane.bus_cap
+				flight.bus_avail.should eq plane.bus_cap
 			end
 
 			it "should update eco_avail on flight" do
-				@flight.eco_avail.should eq @plane.eco_cap
+				flight.eco_avail.should eq plane.eco_cap
 			end
 		end
 	end
