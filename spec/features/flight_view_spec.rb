@@ -2,17 +2,18 @@ require 'spec_helper'
 
 describe "FlightPage" do
 	subject {page}
+
+
+
 	let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 	let(:airport1) {FactoryGirl.create(:airport, :set_name => "San Francisco International Airport")}
 	let(:airport2) {FactoryGirl.create(:airport, :set_name => "Los Angeles International Airport")}
+	let(:flight) {FactoryGirl.create(:flight, airline: airline, set_destination_airport: airport2.id, set_origin_airport: airport1.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 250)}
+	let!(:plane) {FactoryGirl.create(:plane, flight: flight)}
+	
 
 	before do
-		#Stub the time for accurate checks.
-		@time_now = DateTime.parse('3rd Feb 2013 04:05:06 PM')
-		DateTime.stub(:now).and_return(@time_now)
-		@flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
-		@flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-			visit root_path	
+		visit root_path	
 	end
 
 	
@@ -137,8 +138,8 @@ describe "FlightPage" do
 			describe "when economy seats aren't available but business are" do
 
 				before do
-					@flight.eco_avail = 0
-					@flight.save
+					flight.eco_avail = 0
+					flight.save
 					visit root_path
 				end
 
