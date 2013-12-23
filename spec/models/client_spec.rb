@@ -36,14 +36,12 @@ describe Client do
 		let(:frequentflier) {FactoryGirl.create(:frequent_flier, airline: airline, set_discount: 5)}
 		let!(:preference) {FactoryGirl.create(:preference, client: client)}
 		let(:reservation) {FactoryGirl.create(:reservation, client: client, set_frequent_flier_id: frequentflier.id, set_credit_card_id: cc.id, set_agent_id: agent.id)}
+		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_number: 202)}
+		let!(:flight_reservation) {FactoryGirl.create(:flight_reservation, reservation: reservation, set_flight_id: flight.id)}
 		before do
 			@frequent_flier_membership = client.frequent_flier_clients.build(frequent_flier_id: frequentflier.id)
 			@frequent_flier_membership.save
-			@flight = airline.flights.build(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: 5, number: 202, origin_airport: airport.id)
-			@flight.save
-			@plane = @flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-			@flight_reservation = reservation.flight_reservations.build(flight_id: @flight.id)
-			@flight_reservation.save
+			@plane = flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
 		end
 
 		it "should have a frequent flier membership with Virgin America" do

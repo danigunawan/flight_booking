@@ -39,10 +39,9 @@ describe Reservation do
 	describe "Associations: " do
 		let(:airport) {FactoryGirl.create(:airport)}
 		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_number: 202)}
+		let!(:flight_reservation) {FactoryGirl.create(:flight_reservation, reservation: reservation, set_flight_id: flight.id)}
 		before do
 			@plane = flight.build_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-			@flight_reservation = reservation.flight_reservations.build(flight_id: flight.id)
-			@flight_reservation.save
 		end
 	
 		it "should belong to a client by the name of Tester" do

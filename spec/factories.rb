@@ -129,4 +129,14 @@ FactoryGirl.define do
 		status {set_status}
 		agent_id {set_agent_id}
 	end
+
+	factory :flight_reservation do
+		reservation
+
+		ignore do
+			set_flight_id {FactoryGirl.create(:flight).id}
+		end
+
+		flight_id {set_flight_id}
+	end
 end
