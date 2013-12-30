@@ -35,21 +35,15 @@ class FlightsController < ApplicationController
 		end
 		@origins = {"name" => orig_name, "id" => orig_id}
 
-		@display_prices = []
-		fares.each do |f|
-			next_hundred = (f/100.to_f).ceil*100
-			unless @display_prices.include?(next_hundred)
-				@display_prices.push(next_hundred)
-			end
-		end
+		@display_prices = calc_display_prices(fares).sort
 
-		@departure_date = []
-		departure_dt.each do |dt|
-			dd = dt.to_date
-			unless @departure_date.include?(dd)
-				@departure_date.push(dt)
-			end
-		end
+		#@departure_date = []
+		#departure_dt.each do |dt|
+		#	dd = dt.to_date
+		#	unless @departure_date.include?(dd)
+		#		@departure_date.push(dt)
+		#	end
+		#end
 
 		#use a jquery date picker for date selection.
 		#http://jqueryui.com/datepicker/
@@ -61,4 +55,21 @@ class FlightsController < ApplicationController
 		#@airlines = {"name" => airlines.pluck("name"), "id" => Airline.pluck("id")}
 		render 'index'
 	end
+
+	private
+
+	def calc_display_prices(fares)
+		#Take a fares object and output an array of unique fare prices rounded to the next highest hundred.
+		#eg, a fare of 250 becomes 300, and a fare of 225 becomes 300.
+		display_prices = []
+		fares.each do |f|
+			next_hundred = (f/100.to_f).ceil*100
+			unless display_prices.include?(next_hundred)
+				display_prices.push(next_hundred)
+			end
+		end
+
+		return display_prices
+	end
+
 end

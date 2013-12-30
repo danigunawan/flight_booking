@@ -1,16 +1,14 @@
 require 'spec_helper'
 
 describe "FlightPage" do
-	subject {page}
-
-
 
 	let(:airline) {FactoryGirl.create(:airline, :set_name => "Virgin America")}
 	let(:airport1) {FactoryGirl.create(:airport, :set_name => "San Francisco International Airport")}
 	let(:airport2) {FactoryGirl.create(:airport, :set_name => "Los Angeles International Airport")}
 	let(:flight) {FactoryGirl.create(:flight, airline: airline, set_destination_airport: airport2.id, set_origin_airport: airport1.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 250)}
 	let!(:plane) {FactoryGirl.create(:plane, flight: flight)}
-	
+
+	subject {page}
 
 	before do
 		visit root_path	
