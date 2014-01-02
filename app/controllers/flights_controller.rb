@@ -24,11 +24,11 @@ class FlightsController < ApplicationController
 		@query_string = construct_query(params)
 		@input_hash = process_params_hash(params)
 		#@query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND :destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
-		#if @query_string.blank?
-		#	@flights = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
-		#else
-		#	@flights = Flight.paginate(:page => params[:page]).where(@query_string, @input_hash)
-		#end
+		if @query_string.blank?
+			@flights = Flight.where("eco_avail > 0 OR bus_avail > 0")
+		else
+			@flights = Flight.paginate(:page => params[:page]).where(@query_string, @input_hash)
+		end
 	end
 
 	private
@@ -102,8 +102,6 @@ class FlightsController < ApplicationController
 		        	query_string = query_string + "bus_avail + eco_avail >= :min_seat_count"
 		        	and_counter = 1
 		        end
-
-		        #query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND :destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
 		    end
 		end
 
