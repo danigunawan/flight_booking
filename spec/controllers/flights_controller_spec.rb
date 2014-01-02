@@ -35,17 +35,56 @@ describe FlightsController do
 	end
 
 	describe "filter" do
-		before do
-			airport1 = Airport.create(city: "San Francisco", country: "United States of America", i_code: "SFO", name: "San Francisco International Airport", phone: 6508218211)
-			airport2 = Airport.create(city: "Los Angeles", country: "United States of America", i_code: "LAX", name: "Los Angeles International Airport", phone: 6508218222)
-			airline = Airline.create(name: "Virgin America", phone: 5551234567)
-			flight = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 500, eco_fare: 250, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
-			flight.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
-			airport3 = Airport.create(city: "San Jose", country: "United States of America", i_code: "SJC", name: "San Jose International Airport", phone: 6508218211)
-			airport4 = Airport.create(city: "Los Vegas", country: "United States of America", i_code: "LAS", name: "Los Vegas International Airport", phone: 6508218222)
-			airline2 = Airline.create(name: "United Airlines", phone: 5551234567)
-			flight2 = airline.flights.create(airline_id: airline.id, arrival: DateTime.now+(5/24.0), bus_fare: 550, eco_fare: 300, date: Date.today, departure: DateTime.now+(1/24.0), destination_airport: airport2.id, number: 202, origin_airport: airport1.id)
-			flight2.create_plane(bus_cap: 40, eco_cap: 122, manufacturer: "Boeing", make: "737-800", prop_type: "Jet", tail_num: 4285)
+
+		let(:airline) {FactoryGirl.create(:airline)}
+		let(:airline2) {FactoryGirl.create(:airline)}
+		let(:airline3) {FactoryGirl.create(:airline)}
+		let!(:airport) {FactoryGirl.create(:airport)}
+		let!(:airport2) {FactoryGirl.create(:airport)}
+		let!(:airport3) {FactoryGirl.create(:airport)}
+		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight1) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight2) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight3) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight4) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight5) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight6) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight7) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight8) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight9) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight10) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight11) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight12) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight13) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight14) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight15) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight16) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight17) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+
+		it "should create a query string based on the input params" do
+			get :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
+			query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
+			expect(assigns(:query_string)).to eq(query_string)
 		end
+
+		it "should create an input hash based on the input params" do
+			get :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
+			input_hash = {:airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "2", :price => "500", :departure_date => '12/31/2013', :min_seat_count => "3"}
+			expect(assigns(:input_hash)).to include(input_hash)
+		end
+
+		#it "should conduct an open query when query string is blank" do
+		#	get :filter
+
+		#	assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15,flight16,flight17])
+		#end
+
+		#describe "This test is literally useless. The Javascript never fires for a controller test" do
+		#	it "should receive param[:date] in the 'yyyy,mm,dd' format" do
+		#		get :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
+
+		#		assigns(:input_hash)["departure_date"].should eq("2013,12,31")
+		#	end
+		#end
 	end
 end

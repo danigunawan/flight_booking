@@ -19,7 +19,123 @@ class FlightsController < ApplicationController
 		render 'index'
 	end
 
+	def filter
+
+		@query_string = construct_query(params)
+		@input_hash = process_params_hash(params)
+		#@query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND :destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
+		#if @query_string.blank?
+		#	@flights = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
+		#else
+		#	@flights = Flight.paginate(:page => params[:page]).where(@query_string, @input_hash)
+		#end
+	end
+
 	private
+
+	def construct_query(params)
+
+		input_hash = process_params_hash(params)
+
+		#Build the query string
+		#query_string
+		query_string = ""
+		#a counter for and status
+		and_counter = 0
+		input_hash.each do |key, value|
+			#Check for a nil value, if found, do not append to string for this pass
+		    if value != nil
+		    	#check for stationID
+		    	
+		        if key.to_s.eql?("airline_id")
+		        	#check for an and_value
+		        	if and_counter == 1
+		        		#add an AND to the query string
+		        		query_string = query_string + " AND "
+		        	end
+		        	#add a query for station ID to the query_string
+		        	query_string = query_string + "airline_id = :airline_id"
+		        	#set the and_counter to 1 as an AND will be needed if another item is appended
+		        	and_counter = 1
+		        end
+		        #check for charID
+		        if key.to_s.eql?("origin_airport_id")
+		        	#check for an and_value
+		        	if and_counter == 1
+		        		#add an AND to the query string
+		        		query_string = query_string + " AND "
+		        	end
+		        	#append a query for char_id to the query_string
+		        	query_string = query_string + "origin_airport = :origin_airport_id"
+		        	#set the and_counter to 1 as an AND will be needed if another item is appended
+		        	and_counter = 1
+		        end
+		        #check for ownerID
+		        if key.to_s.eql?("dest_airport_id")
+		        	if and_counter == 1
+		        		query_string = query_string + " AND "
+		        	end
+		        	query_string = query_string + "destination_airport = :dest_airport_id"
+		        	and_counter = 1
+		        end
+		        #check for bid
+		        if key.to_s.eql?("price")
+		        	if and_counter == 1
+		        		query_string = query_string + " AND "
+		        	end
+		        	query_string = query_string + "bus_fare <= :price OR eco_fare <= :price"
+		        	and_counter = 1
+		        end
+		        #check for departure date
+		        if key.to_s.eql?("departure_date")
+		        	if and_counter == 1
+		        		query_string = query_string + " AND "
+		        	end
+		        	query_string = query_string + "date = :departure_date"
+		        	and_counter = 1
+		        end
+		        #check for min seats
+		        if key.to_s.eql?("min_seat_count")
+		        	if and_counter == 1
+		        		query_string = query_string + " AND "
+		        	end
+		        	query_string = query_string + "bus_avail + eco_avail >= :min_seat_count"
+		        	and_counter = 1
+		        end
+
+		        #query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND :destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
+		    end
+		end
+
+		return query_string
+
+	end
+
+	def process_params_hash(params)
+		input_hash = Hash.new
+
+		params.each do |key, value|
+			input_hash.merge!(value.eql?("All") ? {key.to_sym => nil} : {key.to_sym => value})
+		end
+
+		return input_hash
+	end
+
+	def check_blank_screen(query_string)
+		#check for blank string
+		if query_string.blank?
+			#if blank, generate an open query
+			@mis = current_user.market_item_summaries
+			#mis = current_user.market_item_summaries
+			@meow = "Query String was Blank"
+		else
+			#else generate a focused query.
+			@mis = current_user.market_item_summaries.where(query_string, input_hash)
+			#mis = current_user.market_item_summaries.where(query_string, input_hash)
+			@meow = query_string + input_hash[:stationID].to_s + input_hash[:charID].to_s + input_hash[:ownerID].to_s + input_hash[:bid].to_s
+			#@meow = @mis.count
+		end
+	end
 
 	def calc_display_prices(fares)
 		#Takes a fares object and outputs a sorted array of unique fare prices rounded to the next highest hundred.

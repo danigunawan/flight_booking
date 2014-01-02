@@ -20,7 +20,7 @@ $(document).ready(function(){
 		var origin = $("#origin_select").val();
 		var dest = $("#dest_select").val();
 		var price = $("#price_select").val();
-		var date = $("#select_date").val();
+		var date = date_modify($("#select_date").val());
 		var seat = $("#min_seats").val();
 		//Fire an AJAX call to flights/filter
 	    $.ajax({
@@ -34,6 +34,13 @@ $(document).ready(function(){
 	    		min_seat_count: seat }
 	    });
 	});
+
+	function date_modify(date) {
+		var date_element = date.split( "/" )
+		var proper_date = date_element[2] + "," + date_element[0] + "," + date_element[1]
+
+		return proper_date
+	}
 
 	function hider() {
 		//Hide or Show table divs based on whether the table's tbody has content.

@@ -3,6 +3,7 @@ PilotTravel::Application.routes.draw do
   root to: 'flights#show'
 
   match  "/flights/show", to: 'flights#show'
+  match  "/flights/filter", to: 'flights#filter'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
