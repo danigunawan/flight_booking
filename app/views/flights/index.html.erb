@@ -19,7 +19,7 @@
 	      <option value="<%=@destinations["id"][@destinations["name"].index(n)] %>"> <%= n%> </option>
 	    <% end %>
 	  </select>
-	  <%= text_field(:select, :date, :size => 15, :value => 'Click to select a Date') %>
+	  <%= text_field(:select, :date, :size => 15, :placeholder => 'Click to select a Date') %>
 	  <select id="min_seats">
 	  	<option value="" disabled selected>Min Seats</option>
 	  	<option value="1">1</option>

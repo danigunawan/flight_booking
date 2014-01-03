@@ -12,6 +12,12 @@ $(function (){
 	   });
 });
 
+$(".date").datepicker({
+  onSelect: function() {
+    $(this).change();
+  }
+});
+
 $(document).ready(function(){
 	//On change, trigger this function
 	$("#airline_select, #origin_select, #dest_select, #price_select, #select_date, #min_seats").change(function(){
@@ -36,10 +42,14 @@ $(document).ready(function(){
 	});
 
 	function date_modify(date) {
-		var date_element = date.split( "/" )
-		var proper_date = date_element[2] + "," + date_element[0] + "," + date_element[1]
-
-		return proper_date
+		if (date.length == 0) {
+			return date
+		}
+		else {
+			var date_element = date.split( "/" )
+			var proper_date = date_element[2] + "-" + date_element[0] + "-" + date_element[1]
+			return proper_date
+		}
 	}
 
 	function hider() {

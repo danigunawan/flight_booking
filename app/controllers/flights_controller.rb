@@ -23,11 +23,25 @@ class FlightsController < ApplicationController
 
 		@query_string = construct_query(params)
 		@input_hash = process_params_hash(params)
-		#@query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND :destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
+		
 		if @query_string.blank?
-			@flights = Flight.where("eco_avail > 0 OR bus_avail > 0")
+			@flights = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
 		else
 			@flights = Flight.paginate(:page => params[:page]).where(@query_string, @input_hash)
+		end
+
+		extract = build_selects(@flights)
+
+		@airlines = extract[:airlines]
+
+		@destinations = extract[:destinations]
+
+		@origins = extract[:origins]
+
+		@display_prices = extract[:display_prices]
+
+		respond_to do |format|
+			format.js
 		end
 	end
 
@@ -113,26 +127,10 @@ class FlightsController < ApplicationController
 		input_hash = Hash.new
 
 		params.each do |key, value|
-			input_hash.merge!(value.eql?("All") ? {key.to_sym => nil} : {key.to_sym => value})
+			input_hash.merge!(value.eql?("") ? {key.to_sym => nil} : {key.to_sym => value})
 		end
 
 		return input_hash
-	end
-
-	def check_blank_screen(query_string)
-		#check for blank string
-		if query_string.blank?
-			#if blank, generate an open query
-			@mis = current_user.market_item_summaries
-			#mis = current_user.market_item_summaries
-			@meow = "Query String was Blank"
-		else
-			#else generate a focused query.
-			@mis = current_user.market_item_summaries.where(query_string, input_hash)
-			#mis = current_user.market_item_summaries.where(query_string, input_hash)
-			@meow = query_string + input_hash[:stationID].to_s + input_hash[:charID].to_s + input_hash[:ownerID].to_s + input_hash[:bid].to_s
-			#@meow = @mis.count
-		end
 	end
 
 	def calc_display_prices(fares)

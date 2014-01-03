@@ -79,27 +79,46 @@ describe FlightsController do
 		let(:flight17) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
 		let!(:plane17) {FactoryGirl.create(:plane, flight: flight17)}
 
-		it "should create a query string based on the input params" do
-			get :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
-			query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
-			expect(assigns(:query_string)).to eq(query_string)
-		end
+		it "should return flights based on the query string" do
+			get :filter, :airline_id => 1, :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
 
-		it "should create an input hash based on the input params" do
-			get :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
-			input_hash = {:airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "2", :price => "500", :departure_date => '12/31/2013', :min_seat_count => "3"}
-			expect(assigns(:input_hash)).to include(input_hash)
+			query_string = "airline_id = :airline_id"
+			expect(assigns(:query_string)).to eq(query_string)
+
 		end
 
 		it "should conduct an open query when query string is blank" do
-			get :filter
-
-			#assigns(:flights).should eq([])
-			#assigns(:query_string).should eq("")
-			
-			expect(assigns(:query_string)).to eq("")
+			get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
 			assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
-			#assigns(:flights).should eq([flight])
+		end
+
+		describe "Query String:" do
+
+			it "should create a query string based on the input params" do
+				get :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
+				query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
+				expect(assigns(:query_string)).to eq(query_string)
+			end
+
+			it "should create a blank query string when params are blank" do
+				get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+				expect(assigns(:query_string)).to eq("")
+			end
+		end
+
+		describe "Input Hash:" do
+
+			it "should create an input hash based on the input params" do
+				get :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
+				input_hash = {:airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "2", :price => "500", :departure_date => '12/31/2013', :min_seat_count => "3"}
+				expect(assigns(:input_hash)).to include(input_hash)
+			end
+
+			it "should create an input hash with nil values when params are empty" do
+				get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+				input_hash = {:airline_id => nil, :origin_airport_id => nil, :dest_airport_id => nil, :price => nil, :departure_date => nil, :min_seat_count => nil}
+				expect(assigns(:input_hash)).to include(input_hash)
+			end
 		end
 
 		#describe "This test is literally useless. The Javascript never fires for a controller test" do
