@@ -4,18 +4,13 @@ $(function (){
 	    minDate: 0,
 	    onSelect: function(theDate) {
 	        $("#dataEnd").datepicker('option', 'minDate', new Date(theDate));
+	        $(this).change();
 	    },
 	    beforeShow: function() {
 	        $('#ui-datepicker-div').css('z-index', 9999);
 	    },
 	    dateFormat: 'mm/dd/yy'
 	   });
-});
-
-$(".date").datepicker({
-  onSelect: function() {
-    $(this).change();
-  }
 });
 
 $(document).ready(function(){
