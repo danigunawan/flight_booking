@@ -1,6 +1,6 @@
 class FlightsController < ApplicationController
 	def show
-		@flights = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
+		@flights = Flight.paginate(:page => params[:page]).where("(eco_avail > 0 OR bus_avail > 0)")
 
 		extract = build_selects(@flights)
 
@@ -25,7 +25,7 @@ class FlightsController < ApplicationController
 		@input_hash = process_params_hash(params)
 		
 		if @query_string.blank?
-			@flights = Flight.paginate(:page => params[:page]).where("eco_avail > 0 OR bus_avail > 0")
+			@flights = Flight.paginate(:page => params[:page]).where("(eco_avail > 0 OR bus_avail > 0)")
 		else
 			@flights = Flight.paginate(:page => params[:page]).where(@query_string, @input_hash)
 		end
@@ -97,7 +97,7 @@ class FlightsController < ApplicationController
 		        	if and_counter == 1
 		        		query_string = query_string + " AND "
 		        	end
-		        	query_string = query_string + "bus_fare <= :price OR eco_fare <= :price"
+		        	query_string = query_string + "(bus_fare <= :price OR eco_fare <= :price)"
 		        	and_counter = 1
 		        end
 		        #check for departure date
@@ -129,6 +129,9 @@ class FlightsController < ApplicationController
 		params.each do |key, value|
 			input_hash.merge!(value.eql?("") ? {key.to_sym => nil} : {key.to_sym => value})
 		end
+
+		#Required to allow for database comparisons of calculated value 'bus_avail + eco_avail >= :min_seat_count'
+		input_hash[:min_seat_count] == nil ? nil : input_hash[:min_seat_count] = input_hash[:min_seat_count].to_i
 
 		return input_hash
 	end

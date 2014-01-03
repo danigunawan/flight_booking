@@ -95,11 +95,52 @@ describe FlightsController do
 			assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
 		end
 
+		describe "Parameter Tests:" do
+
+			it "should return all flights for airline 1" do
+				xhr :get, :filter, :airline_id => "1", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+				assigns(:flights).should eq([flight, flight3, flight6, flight9, flight12, flight15])
+			end
+
+			it "should return all flights for airline 1 that start from airport 1" do
+				xhr :get, :filter, :airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+				assigns(:flights).should eq([flight, flight15])
+			end
+
+			it "should return all flights for airline 1 that start at airport 1 and end at airport 2" do
+				xhr :get, :filter, :airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "2", :price => "", :departure_date => "", :min_seat_count => ""
+				assigns(:flights).should eq([flight])
+			end
+
+			it "should return all flights for airline 1 that start at airport 1, end at airport 2 and have a fare under 300" do
+				xhr :get, :filter, :airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "2", :price => "300", :departure_date => "", :min_seat_count => ""
+				assigns(:flights).should eq([flight])
+			end
+
+			#Stand alone flight with a date for tomorrow to test date based retrieval.
+			let(:flight18) {FactoryGirl.create(:flight, set_date: Date.tomorrow)}
+			let!(:plane18) {FactoryGirl.create(:plane, flight: flight18)}
+			
+			it "should return all flights departing on Date.today" do	
+				xhr :get, :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "#{Date.today}", :min_seat_count => ""
+				assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
+			end
+
+			#Stand alone flight without any seats to test seat based retrieval.
+			let(:flight19) {FactoryGirl.create(:flight, set_date: Date.tomorrow)}
+			let!(:plane19) {FactoryGirl.create(:plane, flight: flight19, set_eco_cap: 0, set_bus_cap: 0)}
+			it "should not return a flight below the minimum seat threshold" do
+				xhr :get, :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => "1"
+				
+				assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17, flight18])
+			end
+		end
+
 		describe "Query String:" do
 
 			it "should create a query string based on the input params" do
 				xhr :get, :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
-				query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND destination_airport = :dest_airport_id AND bus_fare <= :price OR eco_fare <= :price AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
+				query_string = "airline_id = :airline_id AND origin_airport = :origin_airport_id AND destination_airport = :dest_airport_id AND (bus_fare <= :price OR eco_fare <= :price) AND date = :departure_date AND bus_avail + eco_avail >= :min_seat_count"
 				expect(assigns(:query_string)).to eq(query_string)
 			end
 
@@ -113,7 +154,7 @@ describe FlightsController do
 
 			it "should create an input hash based on the input params" do
 				xhr :get, :filter, :airline_id => 1, :origin_airport_id => 1, :dest_airport_id => 2, :price => 500, :departure_date => '12/31/2013', :min_seat_count => 3
-				input_hash = {:airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "2", :price => "500", :departure_date => '12/31/2013', :min_seat_count => "3"}
+				input_hash = {:airline_id => "1", :origin_airport_id => "1", :dest_airport_id => "2", :price => "500", :departure_date => '12/31/2013', :min_seat_count => 3}
 				expect(assigns(:input_hash)).to include(input_hash)
 			end
 
