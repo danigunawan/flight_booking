@@ -1,43 +1,12 @@
 <html>
+	<%#Partialed out for use in AJAX Calls %>
 	<%#= will_paginate %>
 	<div class="dropdowns">
-	  <select id="airline_select">
-	    <option value="All" disabled selected>All Airlines</option>
-	    <% @airlines["name"].each do |n|%>
-	      <option value="<%=@airlines["id"][@airlines["name"].index(n)] %>"> <%= n%> </option>
-	    <% end %>
-	  </select>
-	  <select id="origin_select">
-	    <option value="All" disabled selected>All Origins</option>
-	    <% @origins["name"].each do |n|%>
-	      <option value="<%=@origins["id"][@origins["name"].index(n)] %>"> <%= n%> </option>
-	    <% end %>
-	  </select>
-	  <select id="dest_select">
-	    <option value="All" disabled selected>All Destinations</option>
-	    <% @destinations["name"].each do |n|%>
-	      <option value="<%=@destinations["id"][@destinations["name"].index(n)] %>"> <%= n%> </option>
-	    <% end %>
-	  </select>
-	  <%= text_field(:select, :date, :size => 15, :placeholder => 'Click to select a Date') %>
-	  <select id="min_seats">
-	  	<option value="" disabled selected>Min Seats</option>
-	  	<option value="1">1</option>
-	  	<option value="2">2</option>
-	  	<option value="3">3</option>
-	  	<option value="4">4</option>
-	  	<option value="5">5</option>
-	  </select>
-	  <select id="price_select">
-	  	<option value="All" disabled selected> All Prices</option>
-	  	<% @display_prices.each do |dp| %>
-	  		<option value="<%=dp%>"> <%=dp%></option>
-	  	<% end %>
-	  </select>
+		<%= render :partial => 'selects', locals: {airlines: @airlines, origins: @origins, destinations: @destinations, display_prices: @display_prices}%>
 	</div>
 	<%#= will_paginate %>
 
-	<%#Partialed out for use in AJAX Calls %>
+	
 
 	<div id="flight_table">
 	<%# if current_user.market_item_summaries.pluck('entity').uniq.include?(1)%>

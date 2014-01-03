@@ -1,1 +1,2 @@
 $('#flight_table').empty().append("<%= escape_javascript(render(:partial => 'flight_table', locals: {flights: @flights})) %>");
+$('.dropdowns').empty().append("<%= escape_javascript(render(:partial => 'selects', locals: {airlines: @airlines, origins: @origins, destinations: @destinations, display_prices: @display_prices})) %>");
