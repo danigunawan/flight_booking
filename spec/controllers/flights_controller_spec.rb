@@ -9,28 +9,31 @@ describe FlightsController do
 		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport1.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
 		let!(:plane) {FactoryGirl.create(:plane, flight: flight)}
 
-		it "should create a hash called airlines that contains an array of names and an array of IDs" do
-			airline = {"name" => ["Virgin America"], "id" => [1]}
-			get :show
-			expect(assigns(:airlines)).to eq(airline)
-		end
+		describe "Build Selects:" do
 
-		it "should create a hash called destinations that contains an array of airport names and airport ids" do
-			destination = {"name" => ["Los Angeles International Airport"], "id" => [2]}
-			get :show
-			expect(assigns(:destinations)).to eq(destination)
-		end
+			it "should create a hash called airlines that contains an array of names and an array of IDs" do
+				airline = {"name" => ["Virgin America"], "id" => [1]}
+				get :show
+				expect(assigns(:airlines)).to eq(airline)
+			end
 
-		it "should create a hash called origins that contains an array of airport names and airport ids" do
-			origin = {"name" => ["San Francisco International Airport"], "id" => [1]}
-			get :show
-			expect(assigns(:origins)).to eq(origin)
-		end
+			it "should create a hash called destinations that contains an array of airport names and airport ids" do
+				destination = {"name" => ["Los Angeles International Airport"], "id" => [2]}
+				get :show
+				expect(assigns(:destinations)).to eq(destination)
+			end
 
-		it "should create an array called @display_prices that contains available prices to the next greatest 100" do
-			price = [300, 500]
-			get :show
-			expect(assigns(:display_prices)).to eq(price)
+			it "should create a hash called origins that contains an array of airport names and airport ids" do
+				origin = {"name" => ["San Francisco International Airport"], "id" => [1]}
+				get :show
+				expect(assigns(:origins)).to eq(origin)
+			end
+
+			it "should create an array called @display_prices that contains available prices to the next greatest 100" do
+				price = [300, 500]
+				get :show
+				expect(assigns(:display_prices)).to eq(price)
+			end
 		end
 	end
 
@@ -118,6 +121,38 @@ describe FlightsController do
 				get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
 				input_hash = {:airline_id => nil, :origin_airport_id => nil, :dest_airport_id => nil, :price => nil, :departure_date => nil, :min_seat_count => nil}
 				expect(assigns(:input_hash)).to include(input_hash)
+			end
+		end
+
+		describe "Build Selects:" do
+			it "should create a hash called airlines that contains an array of names and an array of IDs" do
+				airlines = {"name" => [airline.name, airline2.name, airline3.name], "id" => [airline.id, airline2.id, airline3.id]}
+				get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+
+				expect(assigns(:airlines)).to eq(airlines)
+			end
+
+			it "should create a hash called destinations that contains an array of airport names and airport ids" do
+				destination = {"name" => [airport.name, airport2.name, airport3.name], "id" => [airport.id, airport2.id, airport3.id]}
+				get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+
+				expect(assigns(:destinations)["name"].sort).to eq(destination["name"].sort)
+				expect(assigns(:destinations)["id"].sort).to eq(destination["id"].sort)
+			end
+
+			it "should create a hash called origins that contains an array of airport names and airport ids" do
+				origin = {"name" => [airport.name, airport2.name, airport3.name], "id" => [airport.id, airport2.id, airport3.id]}
+				get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+
+				expect(assigns(:origins)["name"].sort).to eq(origin["name"].sort)
+				expect(assigns(:origins)["id"].sort).to eq(origin["id"].sort)
+			end
+
+			it "should create an array called @display_prices that contains available prices to the next greatest 100" do
+				price = [300, 500]
+				get :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
+
+				expect(assigns(:display_prices)).to eq(price)
 			end
 		end
 
