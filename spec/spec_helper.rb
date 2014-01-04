@@ -11,6 +11,8 @@ require 'factory_girl_rails'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
+DatabaseCleaner.strategy = :truncation
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -30,6 +32,12 @@ RSpec.configure do |config|
 
   # For selenium according to: https://groups.google.com/d/msg/ruby-capybara/2lFnQvMFGxs/YvOvebpctFcJ
   config.use_transactional_fixtures = false
+  config.before :each do
+    DatabaseCleaner.start
+  end
+  config.after :each do
+    DatabaseCleaner.clean
+  end
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
