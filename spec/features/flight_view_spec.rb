@@ -103,6 +103,10 @@ describe "FlightPage" do
 				should have_selector('tr#flight0')
 			end
 
+			it "should have a tr with data-flight-id == to flight.id" do
+				should have_selector("tr#flight0[data-flight-id='#{flight.id}']")
+			end
+
 			it "should have a td with id '0airline' and text of Virgin America" do
 				should have_selector('td#0airline', text: 'Virgin America')
 			end
@@ -150,6 +154,67 @@ describe "FlightPage" do
 				should have_selector('td#0reservation')
 				should have_selector('td#0reservation button.btn', text: "Reserve Flight")
 			end
+		end
+	end
+
+	describe "javascript" do
+		let(:airline2) {FactoryGirl.create(:airline)}
+		let(:airport3) {FactoryGirl.create(:airport)}
+		let(:airport4) {FactoryGirl.create(:airport)}
+		let(:flight2) {FactoryGirl.create(:flight, airline: airline2, set_destination_airport: airport4.id, set_origin_airport: airport3.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 250)}
+		let!(:plane2) {FactoryGirl.create(:plane, flight: flight2)}
+
+		let(:airline3) {FactoryGirl.create(:airline)}
+		let(:airport5) {FactoryGirl.create(:airport)}
+		let(:airport6) {FactoryGirl.create(:airport)}
+		let(:flight3) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 2)}
+		let!(:plane3) {FactoryGirl.create(:plane, flight: flight3, set_eco_cap: 1, set_bus_cap: 1)}
+		let(:flight4) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 1)}
+		let!(:plane4) {FactoryGirl.create(:plane, flight: flight4, set_eco_cap: 1, set_bus_cap: 0)}
+
+		before(:each) do
+		  Capybara.current_driver = :selenium
+		  visit root_path
+		end
+
+		it "selecting an airline from #airline_select should display only flights from that airline" do
+			
+			select "#{airline.name}", :from => "airline_select"
+			#capybara select does not trigger change events, so the change event must be forced.
+			#Source: http://stackoverflow.com/a/8568382
+			page.execute_script('$("#airline_select").trigger("change")')
+			
+			should_not have_selector('td', text: "#{airline2.name}")
+			should have_selector('td', text: "#{airline.name}")
+		end
+
+		it "selecting an origin airport from #origin_select should display only flights starting at that airport" do
+			select "#{airport3.name}", :from => "origin_select"
+			page.execute_script('$("#origin_select").trigger("change")')
+
+			should_not have_selector('td', text: "#{airline.name}")
+			should have_selector('td', text: "#{airline2.name}")
+		end
+
+		it "selecting a destination airport from #dest_select should display only flights ending at that airport" do
+			select "#{airport4.name}", :from => "dest_select"
+			execute_script('$("#dest_select").trigger("change")')
+
+			should_not have_selector('td', text: "#{airline.name}")
+			should have_selector('td', text: "#{airline2.name}")
+		end
+
+		it "selecting a minimum seat count from #min_seats should display only flights with that many or more seats" do
+			select "2", :from => "min_seats"
+			execute_script('$("#min_seats").trigger("change")')
+
+			should_not have_selector('td', text: "1")
+			should have_selector('td', text: "2")
+			should have_selector('td', text: "162")
+		end
+
+		after(:all) do
+		  Capybara.use_default_driver
 		end
 	end
 end

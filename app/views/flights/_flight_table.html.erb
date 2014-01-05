@@ -12,7 +12,7 @@
   </thead>
   <tbody id="flight_table_tbody">
     <% @flights.each do |f| %>
-        <tr id="flight<%=@flights.index(f)%>">
+        <tr id="flight<%=@flights.index(f)%>" data-flight-id="<%=f.id%>">
             <td id="<%=@flights.index(f)%>airline"><%=f.airline.name%></td>
             <td id="<%=@flights.index(f)%>origin">
               <% @origins["id"].each do |o| %>
