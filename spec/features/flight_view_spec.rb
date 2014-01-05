@@ -161,15 +161,15 @@ describe "FlightPage" do
 		let(:airline2) {FactoryGirl.create(:airline)}
 		let(:airport3) {FactoryGirl.create(:airport)}
 		let(:airport4) {FactoryGirl.create(:airport)}
-		let(:flight2) {FactoryGirl.create(:flight, airline: airline2, set_destination_airport: airport4.id, set_origin_airport: airport3.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight2) {FactoryGirl.create(:flight, airline: airline2, set_destination_airport: airport4.id, set_origin_airport: airport3.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 300)}
 		let!(:plane2) {FactoryGirl.create(:plane, flight: flight2)}
 
 		let(:airline3) {FactoryGirl.create(:airline)}
 		let(:airport5) {FactoryGirl.create(:airport)}
 		let(:airport6) {FactoryGirl.create(:airport)}
-		let(:flight3) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 2)}
+		let(:flight3) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 400)}
 		let!(:plane3) {FactoryGirl.create(:plane, flight: flight3, set_eco_cap: 1, set_bus_cap: 1)}
-		let(:flight4) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 1)}
+		let(:flight4) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 350)}
 		let!(:plane4) {FactoryGirl.create(:plane, flight: flight4, set_eco_cap: 1, set_bus_cap: 0)}
 
 		before(:each) do
@@ -208,10 +208,23 @@ describe "FlightPage" do
 			select "2", :from => "min_seats"
 			execute_script('$("#min_seats").trigger("change")')
 
-			should_not have_selector('td', text: "1")
-			should have_selector('td', text: "2")
-			should have_selector('td', text: "162")
+			should_not have_selector("tr[data-flight-id='#{flight4.id}']")
+			should have_selector("tr[data-flight-id='#{flight2.id}']")
+			should have_selector("tr[data-flight-id='#{flight3.id}']")
 		end
+
+		it "selecting a price should display only flights with prices cheaper or equal to it" do
+			select "300", :from => "price_select"
+			execute_script('$("#price_select").trigger("change")')
+
+			should_not have_selector("tr[data-flight-id='#{flight3.id}']")
+			should_not have_selector("tr[data-flight-id='#{flight4.id}']")
+
+			should have_selector("tr[data-flight-id='#{flight2.id}']")
+			should have_selector("tr[data-flight-id='#{flight.id}']")
+		end
+
+
 
 		after(:all) do
 		  Capybara.use_default_driver

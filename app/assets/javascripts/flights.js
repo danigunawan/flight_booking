@@ -14,26 +14,30 @@ $(function (){
 });
 
 $(document).ready(function(){
-	//On change, trigger this function
-	$("#airline_select, #origin_select, #dest_select, #price_select, #select_date, #min_seats").change(function(){
-		//Load all select's values into variables
-		var airline = $("#airline_select").val();
-		var origin = $("#origin_select").val();
-		var dest = $("#dest_select").val();
-		var price = $("#price_select").val();
-		var date = date_modify($("#select_date").val());
-		var seat = $("#min_seats").val();
-		//Fire an AJAX call to flights/filter
-	    $.ajax({
-	    	url: "flights/filter", type: "GET",
-	    	//Pass in each variable as a parameter.
-	    	data: { airline_id: airline, 
-	    		origin_airport_id: origin, 
-	    		dest_airport_id: dest, 
-	    		price: price,
-	    		departure_date: date,
-	    		min_seat_count: seat }
-	    });
+
+	$(".dropdowns").on("change", function(){
+		//On change, trigger this function
+		$("#airline_select, #origin_select, #dest_select, #price_select, #select_date, #min_seats").on("change",function(){
+			//Load all select's values into variables
+			var airline = $("#airline_select").val();
+			var origin = $("#origin_select").val();
+			var dest = $("#dest_select").val();
+			var price = $("#price_select").val();
+			var date = date_modify($("#select_date").val());
+			var seat = $("#min_seats").val();
+			//Fire an AJAX call to flights/filter
+		    $.ajax({
+		    	url: "flights/filter", type: "GET",
+		    	//Pass in each variable as a parameter.
+		    	data: { airline_id: airline, 
+		    		origin_airport_id: origin, 
+		    		dest_airport_id: dest, 
+		    		price: price,
+		    		departure_date: date,
+		    		min_seat_count: seat }
+		    });
+		});
+		//alert("meow");
 	});
 
 	function date_modify(date) {
