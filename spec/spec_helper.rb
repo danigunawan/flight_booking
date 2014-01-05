@@ -32,10 +32,25 @@ RSpec.configure do |config|
 
   # For selenium according to: https://groups.google.com/d/msg/ruby-capybara/2lFnQvMFGxs/YvOvebpctFcJ
   config.use_transactional_fixtures = false
-  config.before :each do
+
+  # Faster tests when DatabaseCleaner strategies are optimized: http://devblog.avdi.org/2012/08/31/configuring-database_cleaner-with-rails-rspec-capybara-and-selenium/
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :js => true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
     DatabaseCleaner.start
   end
-  config.after :each do
+
+  config.after(:each) do
     DatabaseCleaner.clean
   end
 
