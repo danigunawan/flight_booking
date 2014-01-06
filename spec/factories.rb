@@ -68,7 +68,7 @@ FactoryGirl.define do
 			set_arrival DateTime.parse('3rd Feb 2013 04:05:06 PM')+(5/24.0)
 			sequence(:set_bus_fare) {|n| (500 + n)}
 			sequence(:set_eco_fare) {|n| (250 + n)}
-			set_date Date.today
+			set_date Date.parse('3rd Feb 2013')
 			set_departure DateTime.parse('3rd Feb 2013 04:05:06 PM')+(1/24.0)
 			set_destination_airport {FactoryGirl.create(:airport).id}
 			sequence(:set_number) {|n| (101 + n)}

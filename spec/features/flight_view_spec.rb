@@ -171,14 +171,14 @@ describe "FlightPage" do
 		let!(:plane3) {FactoryGirl.create(:plane, flight: flight3, set_eco_cap: 1, set_bus_cap: 1)}
 		let(:flight4) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 350)}
 		let!(:plane4) {FactoryGirl.create(:plane, flight: flight4, set_eco_cap: 1, set_bus_cap: 0)}
+		let(:flight5) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 350, set_date: Date.today)}
+		let!(:plane5) {FactoryGirl.create(:plane, flight: flight5, set_eco_cap: 1, set_bus_cap: 0)}
 
 		before(:each) do
-		  Capybara.current_driver = :selenium
-		  visit root_path
+			visit root_path
 		end
 
-		it "selecting an airline from #airline_select should display only flights from that airline" do
-			
+		it "selecting an airline from #airline_select should display only flights from that airline", js: true do
 			select "#{airline.name}", :from => "airline_select"
 			#capybara select does not trigger change events, so the change event must be forced.
 			#Source: http://stackoverflow.com/a/8568382
@@ -188,7 +188,7 @@ describe "FlightPage" do
 			should have_selector('td', text: "#{airline.name}")
 		end
 
-		it "selecting an origin airport from #origin_select should display only flights starting at that airport" do
+		it "selecting an origin airport from #origin_select should display only flights starting at that airport", js: true do
 			select "#{airport3.name}", :from => "origin_select"
 			page.execute_script('$("#origin_select").trigger("change")')
 
@@ -196,7 +196,7 @@ describe "FlightPage" do
 			should have_selector('td', text: "#{airline2.name}")
 		end
 
-		it "selecting a destination airport from #dest_select should display only flights ending at that airport" do
+		it "selecting a destination airport from #dest_select should display only flights ending at that airport", js: true do
 			select "#{airport4.name}", :from => "dest_select"
 			execute_script('$("#dest_select").trigger("change")')
 
@@ -204,7 +204,7 @@ describe "FlightPage" do
 			should have_selector('td', text: "#{airline2.name}")
 		end
 
-		it "selecting a minimum seat count from #min_seats should display only flights with that many or more seats" do
+		it "selecting a minimum seat count from #min_seats should display only flights with that many or more seats", js: true do
 			select "2", :from => "min_seats"
 			execute_script('$("#min_seats").trigger("change")')
 
@@ -213,7 +213,7 @@ describe "FlightPage" do
 			should have_selector("tr[data-flight-id='#{flight3.id}']")
 		end
 
-		it "selecting a price should display only flights with prices cheaper or equal to it" do
+		it "selecting a price should display only flights with prices cheaper or equal to it", js: true do
 			select "300", :from => "price_select"
 			execute_script('$("#price_select").trigger("change")')
 
@@ -224,10 +224,25 @@ describe "FlightPage" do
 			should have_selector("tr[data-flight-id='#{flight.id}']")
 		end
 
+		it "datepicker should not be visible", js: true do
+			should_not have_selector("#ui-datepicker-div")
+		end
 
+		it "clicking on #select_date should display #date_picker", js: true do
+			find('#select_date').click
+			should have_selector("#ui-datepicker-div", visible: true)
+		end
 
-		after(:all) do
-		  Capybara.use_default_driver
+		it "filling in #select_date with datepicker should display flights on that date", js: true do
+
+			find('#select_date').click
+
+			should have_selector(".ui-state-default", text: "6")
+			first('a.ui-state-default', text: Date.today.day).click
+			execute_script('$("#select_date").trigger("change")')
+
+			should_not have_selector("tr[data-flight-id='#{flight2.id}']")
+			should have_selector("tr[data-flight-id='#{flight5.id}']")
 		end
 	end
 end
