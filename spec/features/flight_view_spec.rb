@@ -173,6 +173,8 @@ describe "FlightPage" do
 		let!(:plane4) {FactoryGirl.create(:plane, flight: flight4, set_eco_cap: 1, set_bus_cap: 0)}
 		let(:flight5) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 350, set_date: Date.today)}
 		let!(:plane5) {FactoryGirl.create(:plane, flight: flight5, set_eco_cap: 1, set_bus_cap: 0)}
+		let(:flight6) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport5.id, set_origin_airport: airport6.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 350, set_date: Date.today)}
+		let!(:plane6) {FactoryGirl.create(:plane, flight: flight6, set_eco_cap: 1, set_bus_cap: 3)}
 
 		before(:each) do
 			visit root_path
@@ -244,5 +246,40 @@ describe "FlightPage" do
 			should_not have_selector("tr[data-flight-id='#{flight2.id}']")
 			should have_selector("tr[data-flight-id='#{flight5.id}']")
 		end
+
+		it "javascript functionality should persist through re-rendered partials", js: true do
+			find('#select_date').click
+
+			should have_selector(".ui-state-default", text: "6")
+			first('a.ui-state-default', text: Date.today.day).click
+			execute_script('$("#select_date").trigger("change")')
+
+			should have_selector("tr[data-flight-id='#{flight6.id}']")
+			should have_selector("tr[data-flight-id='#{flight5.id}']")
+
+			should have_selector("#min_seats")
+			select "2", :from => "min_seats"
+			execute_script('$("#min_seats").trigger("change")')
+
+			should_not have_selector("tr[data-flight-id='#{flight5.id}']")
+			should have_selector("tr[data-flight-id='#{flight6.id}']")
+		end
+
+		it "after selecting from a drop down, the 'All' value should be available as an option", js: true do
+			select "#{airport6.name}", :from => "dest_select"
+			execute_script('$("#dest_select").trigger("change")')
+
+			should_not have_selector("tr[data-flight-id='#{flight6.id}']")
+
+			within '#dest_select' do
+				should have_css("option[value='All']")
+				should_not have_css("option[value='All'][disabled]")
+			end
+
+			select "All", :from => "dest_select"
+			execute_script('$("#dest_select").trigger("change")')
+
+			should have_selector("tr[data-flight-id='#{flight6.id}']")
+		end		
 	end
 end

@@ -50,22 +50,6 @@ $(document).ready(function(){
 			return proper_date
 		}
 	}
-
-	function hider() {
-		//Hide or Show table divs based on whether the table's tbody has content.
-		if ($.trim($("#corp_tbody").html())=='') {
-			$("#corporationtable").hide()
-		}
-		if ($.trim($("#corp_tbody").html())!='') {
-			$("#corporationtable").show()
-		}
-		if ($.trim($("#char_tbody").html())=='') {
-			$("#charactertable").hide()
-		}
-		if ($.trim($("#char_tbody").html())!='') {
-			$("#charactertable").show()
-		}
-	}
 });
 
 
