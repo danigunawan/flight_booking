@@ -13,6 +13,11 @@ $(function (){
 	   });
 });
 
+//function enable(){
+		//alert("meow");
+//		$("#airline_select option[value="All"]").removeAttr('disabled');
+//	}
+
 $(document).ready(function(){
 
 	$(".dropdowns").on("change", function(){
@@ -34,11 +39,20 @@ $(document).ready(function(){
 		    		dest_airport_id: dest, 
 		    		price: price,
 		    		departure_date: date,
-		    		min_seat_count: seat }
+		    		min_seat_count: seat },
+		    	success: enable
 		    });
 		});
 		//alert("meow");
 	});
+
+	function enable(){
+		//alert("meow");
+		$("#airline_select option[value='All']").removeAttr('disabled');
+		$("#origin_select option[value='All']").removeAttr('disabled');
+		$("#dest_select option[value='All']").removeAttr('disabled');
+		$("#price_select option[value='All']").removeAttr('disabled');
+	}
 
 	function date_modify(date) {
 		if (date.length == 0) {
