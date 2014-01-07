@@ -45,41 +45,41 @@ describe FlightsController do
 		let!(:airport) {FactoryGirl.create(:airport)}
 		let!(:airport2) {FactoryGirl.create(:airport)}
 		let!(:airport3) {FactoryGirl.create(:airport)}
-		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane) {FactoryGirl.create(:plane, flight: flight)}
-		let(:flight1) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight1) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane1) {FactoryGirl.create(:plane, flight: flight1)}
-		let(:flight2) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight2) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane2) {FactoryGirl.create(:plane, flight: flight2)}
-		let(:flight3) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight3) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane3) {FactoryGirl.create(:plane, flight: flight3)}
-		let(:flight4) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight4) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane4) {FactoryGirl.create(:plane, flight: flight4)}
-		let(:flight5) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight5) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport2.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane5) {FactoryGirl.create(:plane, flight: flight5)}
-		let(:flight6) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight6) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane6) {FactoryGirl.create(:plane, flight: flight6)}
-		let(:flight7) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight7) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane7) {FactoryGirl.create(:plane, flight: flight7)}
-		let(:flight8) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight8) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport2.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane8) {FactoryGirl.create(:plane, flight: flight8)}
-		let(:flight9) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight9) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane9) {FactoryGirl.create(:plane, flight: flight9)}
-		let(:flight10) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight10) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane10) {FactoryGirl.create(:plane, flight: flight10)}
-		let(:flight11) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight11) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport3.id, set_destination_airport: airport2.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane11) {FactoryGirl.create(:plane, flight: flight11)}
-		let(:flight12) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight12) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane12) {FactoryGirl.create(:plane, flight: flight12)}
-		let(:flight13) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight13) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane13) {FactoryGirl.create(:plane, flight: flight13)}
-		let(:flight14) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight14) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport3.id, set_destination_airport: airport.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane14) {FactoryGirl.create(:plane, flight: flight14)}
-		let(:flight15) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight15) {FactoryGirl.create(:flight, airline: airline, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane15) {FactoryGirl.create(:plane, flight: flight15)}
-		let(:flight16) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight16) {FactoryGirl.create(:flight, airline: airline2, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane16) {FactoryGirl.create(:plane, flight: flight16)}
-		let(:flight17) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250)}
+		let(:flight17) {FactoryGirl.create(:flight, airline: airline3, set_origin_airport: airport.id, set_destination_airport: airport3.id, set_bus_fare: 500, set_eco_fare: 250, set_date: Date.today)}
 		let!(:plane17) {FactoryGirl.create(:plane, flight: flight17)}
 
 		it "should return flights based on the query string" do
