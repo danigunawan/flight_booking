@@ -20,9 +20,9 @@ $(function (){
 
 $(document).ready(function(){
 
-	$(".dropdowns").on("change", function(){
+	$(".dropdowns").on("change",function(){
 		//On change, trigger this function
-		$("#airline_select, #origin_select, #dest_select, #price_select, #select_date, #min_seats").on("change",function(){
+		//$("#airline_select, #origin_select, #dest_select, #price_select, #select_date, #min_seats").on("change",function(){
 			//Load all select's values into variables
 			var airline = $("#airline_select").val();
 			var origin = $("#origin_select").val();
@@ -42,7 +42,7 @@ $(document).ready(function(){
 		    		min_seat_count: seat },
 		    	success: enable
 		    });
-		});
+		//});
 		//alert("meow");
 	});
 

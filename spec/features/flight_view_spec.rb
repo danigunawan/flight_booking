@@ -328,36 +328,56 @@ describe "FlightPage" do
 
 			find('#select_date').click
 
-			#should have_selector(".ui-state-default", text: "6")
 			first('a.ui-state-default', text: Date.today.day).click
-			execute_script('$("#select_date").trigger("change")')
 
 			should_not have_selector("tr[data-flight-id='#{flight2.id}']")
 			should have_selector("tr[data-flight-id='#{flight5.id}']")
 		end
 
 		it "javascript functionality should persist through re-rendered partials", js: true do
+			#Open datepicker
 			find('#select_date').click
 
-			should have_selector(".ui-state-default", text: "6")
+			#Select the current date
 			first('a.ui-state-default', text: Date.today.day).click
-			execute_script('$("#select_date").trigger("change")')
 
+			#Check for updated data
 			should have_selector("tr[data-flight-id='#{flight6.id}']")
 			should have_selector("tr[data-flight-id='#{flight5.id}']")
 
+			#A second selection
 			should have_selector("#min_seats")
 			select "2", :from => "min_seats"
-			execute_script('$("#min_seats").trigger("change")')
 
+			#Check for new data
 			should_not have_selector("tr[data-flight-id='#{flight5.id}']")
 			should have_selector("tr[data-flight-id='#{flight6.id}']")
 		end
 
+		it "datepicker functionality should persist through re-rendered partials", js: true do
+			#Open datepicker
+			find('#select_date').click
+
+			#Select the current date
+			first('a.ui-state-default', text: Date.today.day).click
+
+			#Check for updated data
+			should have_selector("tr[data-flight-id='#{flight6.id}']")
+			should have_selector("tr[data-flight-id='#{flight5.id}']")
+
+			#A second selection open datepicker
+			find('#select_date').click
+
+			#Select a new date
+			first('a.ui-state-default', text: Date.today.day+1).click
+
+			#Check for no flight data.
+			should_not have_selector("tr")
+		end
+
 		it "after selecting from a drop down, the '' value should be available as an option", js: true do
 			select "#{airport6.name}", :from => "dest_select"
-			execute_script('$("#dest_select").trigger("change")')
-
+			
 			should_not have_selector("tr[data-flight-id='#{flight6.id}']")
 
 			within '#dest_select' do
@@ -368,9 +388,6 @@ describe "FlightPage" do
 			within '#dest_select' do
 				find("option[value='']").click
 			end
-
-			select "1", :from => "min_seats"
-			#execute_script('$("#min_seats").trigger("change")')
 
 			should have_selector("tr[data-flight-id='#{flight6.id}']")
 		end		
