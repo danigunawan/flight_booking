@@ -34,6 +34,12 @@ describe FlightsController do
 				get :show
 				expect(assigns(:display_prices)).to eq(price)
 			end
+
+			it "should create a nil value called @input_hash" do
+				input_hash = nil
+				get :show
+				expect(assigns(:input_hash)).to eq(input_hash)
+			end
 		end
 	end
 
@@ -94,11 +100,6 @@ describe FlightsController do
 			xhr :get, :filter, :airline_id => "", :origin_airport_id => "", :dest_airport_id => "", :price => "", :departure_date => "", :min_seat_count => ""
 			assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
 		end
-
-		#it "should conduct an open query when query string is contains 'All'" do
-		#	xhr :get, :filter, :airline_id => "All", :origin_airport_id => "All", :dest_airport_id => "All", :price => "All", :departure_date => "", :min_seat_count => ""
-		#	assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
-		#end
 
 		describe "Parameter Tests:" do
 

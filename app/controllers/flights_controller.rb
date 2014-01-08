@@ -12,6 +12,8 @@ class FlightsController < ApplicationController
 
 		@display_prices = extract[:display_prices]
 
+		@input_hash = nil
+
 		#use a jquery date picker for date selection.
 		#http://jqueryui.com/datepicker/
 		#@dater = @departure_date[0]
