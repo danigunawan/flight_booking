@@ -48,10 +48,10 @@ $(document).ready(function(){
 
 	function enable(){
 		//alert("meow");
-		$("#airline_select option[value='All']").removeAttr('disabled');
-		$("#origin_select option[value='All']").removeAttr('disabled');
-		$("#dest_select option[value='All']").removeAttr('disabled');
-		$("#price_select option[value='All']").removeAttr('disabled');
+		$("#airline_select option[value='']").removeAttr('disabled');
+		$("#origin_select option[value='']").removeAttr('disabled');
+		$("#dest_select option[value='']").removeAttr('disabled');
+		$("#price_select option[value='']").removeAttr('disabled');
 	}
 
 	function date_modify(date) {

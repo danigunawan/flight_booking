@@ -95,10 +95,10 @@ describe FlightsController do
 			assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
 		end
 
-		it "should conduct an open query when query string is contains 'All'" do
-			xhr :get, :filter, :airline_id => "All", :origin_airport_id => "All", :dest_airport_id => "All", :price => "All", :departure_date => "", :min_seat_count => ""
-			assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
-		end
+		#it "should conduct an open query when query string is contains 'All'" do
+		#	xhr :get, :filter, :airline_id => "All", :origin_airport_id => "All", :dest_airport_id => "All", :price => "All", :departure_date => "", :min_seat_count => ""
+		#	assigns(:flights).should eq([flight, flight1, flight2, flight3, flight4, flight5, flight6, flight7, flight8, flight9, flight10, flight11, flight12, flight13, flight14, flight15, flight16, flight17])
+		#end
 
 		describe "Parameter Tests:" do
 

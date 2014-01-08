@@ -1,19 +1,19 @@
 <select id="airline_select">
-	<option value="All" disabled selected>All Airlines</option>
+	<option value="" disabled selected>All Airlines</option>
 	<% @airlines["name"].each do |n|%>
 		<option value="<%=@airlines["id"][@airlines["name"].index(n)] %>"> <%= n%> </option>
 	<% end %>
 </select>
 
 <select id="origin_select">
-	<option value="All" disabled selected>All Origins</option>
+	<option value="" disabled selected>All Origins</option>
 	<% @origins["name"].each do |n|%>
 		<option value="<%=@origins["id"][@origins["name"].index(n)] %>"> <%= n%> </option>
 	<% end %>
 </select>
 
 <select id="dest_select">
-	<option value="All" disabled selected>All Destinations</option>
+	<option value="" disabled selected>All Destinations</option>
 	<% @destinations["name"].each do |n|%>
 	  <option value="<%=@destinations["id"][@destinations["name"].index(n)] %>"> <%= n%> </option>
 	<% end %>
@@ -31,7 +31,7 @@
 </select>
 
 <select id="price_select">
-	<option value="All" disabled selected> All Prices</option>
+	<option value="" disabled selected> All Prices</option>
 	<% @display_prices.each do |dp| %>
 		<option value="<%=dp%>"> <%=dp%></option>
 	<% end %>

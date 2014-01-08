@@ -272,11 +272,15 @@ describe "FlightPage" do
 			should_not have_selector("tr[data-flight-id='#{flight6.id}']")
 
 			within '#dest_select' do
-				should have_css("option[value='All']")
-				should_not have_css("option[value='All'][disabled]")
+				should have_css("option[value='']")
+				should_not have_css("option[value=''][disabled]")
 			end
 
-			select "All", :from => "dest_select"
+			within '#dest_select' do
+				find("option[value='']").click
+			end
+
+			#select value"", :from => "dest_select"
 			execute_script('$("#dest_select").trigger("change")')
 
 			should have_selector("tr[data-flight-id='#{flight6.id}']")
