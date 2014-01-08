@@ -2,7 +2,7 @@
 	<%#Partialed out for use in AJAX Calls %>
 	<%#= will_paginate %>
 	<div class="dropdowns">
-		<%= render :partial => 'selects', locals: {airlines: @airlines, origins: @origins, destinations: @destinations, display_prices: @display_prices}%>
+		<%= render :partial => 'selects', locals: {airlines: @airlines, origins: @origins, destinations: @destinations, display_prices: @display_prices, input_hash: @input_hash}%>
 	</div>
 	<%#= will_paginate %>
 

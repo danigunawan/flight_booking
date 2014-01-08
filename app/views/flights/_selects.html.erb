@@ -1,19 +1,43 @@
 <select id="airline_select">
-	<option value="" disabled selected>All Airlines</option>
+	<% if @input_hash.nil? %>
+		<option value="" disabled selected>All Airlines</option>
+	<% else %>
+		<% if @input_hash[:airline_id].blank? %>
+			<option value="" disabled selected>All Airlines</option>
+		<% else %>
+			<option value="" disabled>All Airlines</option>
+		<% end %>
+	<% end %>
 	<% @airlines["name"].each do |n|%>
 		<option value="<%=@airlines["id"][@airlines["name"].index(n)] %>"> <%= n%> </option>
 	<% end %>
 </select>
 
 <select id="origin_select">
-	<option value="" disabled selected>All Origins</option>
+	<% if @input_hash.nil? %>
+		<option value="" disabled selected>All Origins</option>
+	<% else %>
+		<% if @input_hash[:origin_airport_id].blank? %>
+			<option value="" disabled selected>All Origins</option>
+		<% else %>
+			<option value="" disabled>All Origins</option>
+		<% end %>
+	<% end %>
 	<% @origins["name"].each do |n|%>
 		<option value="<%=@origins["id"][@origins["name"].index(n)] %>"> <%= n%> </option>
 	<% end %>
 </select>
 
 <select id="dest_select">
-	<option value="" disabled selected>All Destinations</option>
+	<% if @input_hash.nil? %>
+		<option value="" disabled selected>All Destinations</option>
+	<% else %>
+		<% if @input_hash[:dest_airport_id].blank? %>
+			<option value="" disabled selected>All Destinations</option>
+		<% else %>
+			<option value="" disabled>All Destinations</option>
+		<% end %>
+	<% end %>
 	<% @destinations["name"].each do |n|%>
 	  <option value="<%=@destinations["id"][@destinations["name"].index(n)] %>"> <%= n%> </option>
 	<% end %>
@@ -22,7 +46,15 @@
 <%= text_field(:select, :date, :size => 15, :placeholder => 'Click to select a Date') %>
 
 <select id="min_seats">
-	<option value="" disabled selected>Min Seats</option>
+	<% if @input_hash.nil? %>
+		<option value="" disabled selected>Min Seats</option>
+	<% else %>
+		<% if @input_hash[:min_seat_count].blank? %>
+			<option value="" disabled selected>Min Seats</option>
+		<% else %>
+			<option value="" disabled>Min Seats</option>
+		<% end %>
+	<% end %>
 	<option value="1">1</option>
 	<option value="2">2</option>
 	<option value="3">3</option>
@@ -31,7 +63,15 @@
 </select>
 
 <select id="price_select">
-	<option value="" disabled selected> All Prices</option>
+	<% if @input_hash.nil? %>
+		<option value="" disabled selected>All Prices</option>
+	<% else %>
+		<% if @input_hash[:price].blank? %>
+			<option value="" disabled selected>All Pricess</option>
+		<% else %>
+			<option value="" disabled>All Prices</option>
+		<% end %>
+	<% end %>
 	<% @display_prices.each do |dp| %>
 		<option value="<%=dp%>"> <%=dp%></option>
 	<% end %>

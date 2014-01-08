@@ -53,6 +53,95 @@ describe "FlightPage" do
 		it "should contain an option for each airline" do
 			page.has_select?('airline_select', :with_options => [airline.name])
 		end
+
+		it "should release 'All Airlines' from permanent selection when rerendered", js: true do
+
+			select "#{airline.name}", :from => "airline_select"
+			execute_script('$("#airline_select").trigger("change")')
+
+			within '#airline_select' do
+				should_not have_css("option[value=''][selected]")
+				should have_css("option[value='']")
+			end
+		end
+	end
+
+	describe "origin_select" do
+		it "should contain a default option for 'All Origins'" do
+			has_select?('origin_select', :with_options => ["All Origins"])
+		end
+
+		it "should contain an option for origin airports but not destination airports" do
+			within '#origin_select' do
+				should_not have_css("option[value='#{airport2.id}']")
+				should have_css("option[value='#{airport1.id}']")
+			end
+		end
+
+		it "should release 'All Origins' from permanent selection when rerendered", js: true do
+			select "#{airport1.name}", :from => "origin_select"
+			execute_script('$("#origin_select").trigger("change")')
+
+			within '#origin_select' do
+				should_not have_css("options[value=''][selected]")
+				should have_css("option[value='']")
+			end
+		end
+	end
+
+	describe "dest_select" do
+		it "should contain a default option for 'All Destinations'" do
+			has_select?('dest_select', :with_options => ["All Destinations"])
+		end
+
+		it "should contain an option for destination airports but not origin airports" do
+			within '#dest_select' do
+				should_not have_css("option[value='#{airport1.id}']")
+				should have_css("option[value='#{airport2.id}']")
+			end
+		end
+
+		it "should release 'All Origins' from permanent selection when rerendered", js: true do
+			select "#{airport2.name}", :from => "dest_select"
+			execute_script('$("#dest_select").trigger("change")')
+
+			within '#dest_select' do
+				should_not have_css("options[value=''][selected]")
+				should have_css("option[value='']")
+			end
+		end
+	end
+
+	describe "min_seats" do
+		it "should contain a default option for 'Min Seats'" do
+			has_select?('min_seats', :with_options => ["Min Seats"])
+		end
+
+		it "should release 'Min Seats' from permanent selection when rerendered", js: true do
+			select "1", :from => "min_seats"
+			execute_script('$("#min_seats").trigger("change")')
+
+			within '#min_seats' do
+				should_not have_css("options[value=''][selected]")
+				should have_css("option[value='']")
+			end
+		end
+	end
+
+	describe "price_select" do
+		it "should contain a default option for 'All Prices'" do
+			has_select?('price_select', :with_options => ["All Prices"])
+		end
+
+		it "should release 'All Prices' from permanent selection when rerendered", js: true do
+			select "300", :from => "price_select"
+			execute_script('$("#price_select").trigger("change")')
+
+			within '#price_select' do
+				should_not have_css("options[value=''][selected]")
+				should have_css("option[value='']")
+			end
+		end
 	end
 
 	describe "flight table" do
@@ -165,8 +254,8 @@ describe "FlightPage" do
 		let!(:plane2) {FactoryGirl.create(:plane, flight: flight2)}
 
 		let(:airline3) {FactoryGirl.create(:airline)}
-		let(:airport5) {FactoryGirl.create(:airport)}
-		let(:airport6) {FactoryGirl.create(:airport)}
+		let(:airport5) {FactoryGirl.create(:airport, set_name: "Airport Five")}
+		let(:airport6) {FactoryGirl.create(:airport, set_name: "Airport Six")}
 		let(:flight3) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 400)}
 		let!(:plane3) {FactoryGirl.create(:plane, flight: flight3, set_eco_cap: 1, set_bus_cap: 1)}
 		let(:flight4) {FactoryGirl.create(:flight, airline: airline3, set_destination_airport: airport6.id, set_origin_airport: airport5.id, set_number: 202, set_bus_fare: 500, set_eco_fare: 350)}
@@ -239,7 +328,7 @@ describe "FlightPage" do
 
 			find('#select_date').click
 
-			should have_selector(".ui-state-default", text: "6")
+			#should have_selector(".ui-state-default", text: "6")
 			first('a.ui-state-default', text: Date.today.day).click
 			execute_script('$("#select_date").trigger("change")')
 
@@ -265,7 +354,7 @@ describe "FlightPage" do
 			should have_selector("tr[data-flight-id='#{flight6.id}']")
 		end
 
-		it "after selecting from a drop down, the 'All' value should be available as an option", js: true do
+		it "after selecting from a drop down, the '' value should be available as an option", js: true do
 			select "#{airport6.name}", :from => "dest_select"
 			execute_script('$("#dest_select").trigger("change")')
 
@@ -280,8 +369,8 @@ describe "FlightPage" do
 				find("option[value='']").click
 			end
 
-			#select value"", :from => "dest_select"
-			execute_script('$("#dest_select").trigger("change")')
+			select "1", :from => "min_seats"
+			#execute_script('$("#min_seats").trigger("change")')
 
 			should have_selector("tr[data-flight-id='#{flight6.id}']")
 		end		
